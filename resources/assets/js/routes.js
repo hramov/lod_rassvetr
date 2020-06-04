@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 import DashboardComponent from './components/DashboardComponent'
 import LoginComponent from './components/LoginComponent'
 import LogoutComponent from './components/LogoutComponent'
+import RegisterComponent from './components/RegisterComponent'
 import store from './store'
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
         path: '/logout',
         name: 'logout',
         component: LogoutComponent
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: RegisterComponent
     }
 ]
 

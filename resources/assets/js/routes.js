@@ -7,6 +7,8 @@ import DashboardComponent from './components/DashboardComponent'
 import LoginComponent from './components/LoginComponent'
 import LogoutComponent from './components/LogoutComponent'
 import RegisterComponent from './components/RegisterComponent'
+import PollsComponent from './components/PollsComponent'
+import CreatePollComponent from './components/CreatePollComponent'
 import store from './store'
 
 const routes = [
@@ -39,6 +41,11 @@ const routes = [
         path: '/polls',
         name: 'polls',
         component: PollsComponent
+    },
+    {
+        path: '/createPoll',
+        name: 'createPoll',
+        component: CreatePollComponent
     }
 ]
 

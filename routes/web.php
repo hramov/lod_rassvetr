@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('app');
 });
 
-Route::post('/register', 'RegController@register');
+// Route::post('/register', 'RegController@register');
+Route::post('/createPoll', 'PollsController@store');
+Route::get('/getPolls', 'PollsController@index');

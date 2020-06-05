@@ -30,7 +30,8 @@ export default {
                 email: '',
                 password: '',
                 loginError: false,
-                session_data_error: false
+                session_data_error: false,
+                session_data_success: false
             }
         },
         methods: {

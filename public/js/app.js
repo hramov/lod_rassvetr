@@ -1974,9 +1974,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      csrf: document.head.querySelector('meta[name="csrf-token"]').content,
       title: "",
       description: "",
       content: ""
@@ -1984,21 +1986,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     storePoll: function storePoll() {
-      console.log("Store");
+      window.axios.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest'
+      };
+      var data = {
+        title: this.title,
+        description: this.description,
+        content: this.content
+      };
+      axios.post('/createPoll/', data).then(function (response) {
+        return console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
-  } // mounted() {
-  //     axios.get('', {
-  //         headers: {
-  //             Authorization: 'Bearer ' + localStorage.getItem('token')
-  //         }
-  //     })
-  //     .then(response => {
-  //         this.data = response
-  //         console.log(response)
-  //     }).catch(error => {
-  //     })
-  // }
-
+  }
 });
 
 /***/ }),
@@ -2095,7 +2097,8 @@ __webpack_require__.r(__webpack_exports__);
       email: '',
       password: '',
       loginError: false,
-      session_data_error: false
+      session_data_error: false,
+      session_data_success: false
     };
   },
   methods: {
@@ -2177,19 +2180,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({// data() {
-  //     return {
-  //         data: ""
-  //     }
-  // },
-  // mounted() {
-  //     axios.get('/api/polls/')
-  //     .then(response => {
-  //         this.data = response.data.data
-  //         console.log(response)
-  //     }).catch(error => {
-  //     })
-  // }
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      data: ""
+    };
+  },
+  mounted: function mounted() {
+    axios.get('/getPolls').then(function (response) {
+      console.log(response);
+    })["catch"](function (error) {});
+  }
 });
 
 /***/ }),
@@ -35842,6 +35844,11 @@ var render = function() {
                 }
               },
               [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
                 _c("p", [_vm._v("Заголовок")]),
                 _vm._v(" "),
                 _c("input", {
@@ -36169,28 +36176,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-          _c("h1", [_vm._v("Polls")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel panel-default" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+        _c("h1", [_vm._v("Polls")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "panel panel-default" },
+          [
             _c("div", { staticClass: "panel-heading" }, [_vm._v("Polls")]),
             _vm._v(" "),
-            _c("div", { staticClass: "panel-body" })
-          ])
-        ])
+            _vm._l(_vm.polls, function(poll) {
+              return _c("div", { staticClass: "panel-body" }, [_c("p")])
+            })
+          ],
+          2
+        )
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -93750,14 +93757,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/assets/js/components/CreatePollComponent.vue ***!
   \****************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatePollComponent.vue?vue&type=template&id=7928540a& */ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a&");
 /* harmony import */ var _CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreatePollComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -93787,7 +93795,7 @@ component.options.__file = "resources/assets/js/components/CreatePollComponent.v
 /*!*****************************************************************************************!*\
   !*** ./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

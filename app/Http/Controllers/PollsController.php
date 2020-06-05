@@ -14,7 +14,9 @@ class PollsController extends Controller
      */
     public function index()
     {
-        
+        $poll = new Poll;
+        $polls = Poll::all();
+        return response()->json(['polls' => $polls]);
     }
 
     /**
@@ -37,7 +39,7 @@ class PollsController extends Controller
     {
         $poll = new Poll;
 
-        $poll->title = $request->name;
+        $poll->title = $request->title;
         $poll->description = $request->description;
         $poll->content = $request->content;
 

@@ -5,7 +5,8 @@
                 <h1>Polls</h1>
                 <div class="panel panel-default">
                     <div class="panel-heading">Polls</div>
-                    <div class="panel-body">
+                    <div v-for="poll in polls" class="panel-body">
+                        <p></p>
                     </div>
                 </div>
 
@@ -16,18 +17,17 @@
 
 <script>
     export default {
-        // data() {
-        //     return {
-        //         data: ""
-        //     }
-        // },
-        // mounted() {
-        //     axios.get('/api/polls/')
-        //     .then(response => {
-        //         this.data = response.data.data
-        //         console.log(response)
-        //     }).catch(error => {
-        //     })
-        // }
+        data() {
+            return {
+                data: ""
+            }
+        },
+        mounted() {
+            axios.get('/getPolls')
+            .then(response => {
+                console.log(response)
+            }).catch(error => {
+            })
+        }
     }
 </script>

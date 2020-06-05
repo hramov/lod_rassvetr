@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('app');
 });
+
+Route::post('/register', 'RegController@register');

@@ -1,6 +1,11 @@
 <template>
     <div class="text-center form-wrapper">
-
+        <v-alert v-if="session_data_error" type="error">
+            I'm an error alert.
+        </v-alert>
+        <v-alert v-if="session_data_success" type="success">
+            Successfully registered!
+        </v-alert>
         <form class="form-signin" v-on:submit.prevent="submitLogin">
             <img class="mb-4" src="/img/bootstrap-solid.svg" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -19,12 +24,13 @@
 
 <script>
     import store from '../store'
-    export default {
+export default {
         data() {
             return {
                 email: '',
                 password: '',
                 loginError: false,
+                session_data_error: false
             }
         },
         methods: {
@@ -40,6 +46,9 @@
                     this.$router.push({ name: 'dashboard' })
                 }).catch(error => {
                     this.loginError = true
+                    this.session_data_error = true
+                    console.log("ERROR logging")
+
                 });
             }
         }

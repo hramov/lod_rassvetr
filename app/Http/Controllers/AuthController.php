@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Response;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -15,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -23,10 +24,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    
     public function login()
     {
         $credentials = request(['email', 'password']);
-
+        
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -34,18 +36,24 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function register(Request $request) {
-        return User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),,
-            'password' => bcrypt($request->get('password')),
-        ]);
+    public function register(Request $request){
 
-        // if (! $token = auth()->attempt($credentials)) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
+        $userData = array(
+            'name'      => $request['name'],
+            'email'     =>  $request['email'],
+            'password'  =>  Hash::make($request['password']),
+        );
 
-        // return $this->respondWithToken($token);
+        //save to DB user details
+        $user = User::create($userData);
+
+        if($user) {
+            //return success  message
+            return Response::json(array(
+                'success' => true,
+                'user' => $user
+            ));
+        }
     }
 
     /**

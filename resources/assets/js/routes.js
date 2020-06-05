@@ -12,7 +12,7 @@ import store from './store'
 const routes = [
     {
         path: '/',
-        redirect: { name: 'login' }
+        redirect: { name: 'register' }
     },
     {
         path: '/dashboard',
@@ -34,6 +34,11 @@ const routes = [
         path: '/register',
         name: 'register',
         component: RegisterComponent
+    },
+    {
+        path: '/polls',
+        name: 'polls',
+        component: PollsComponent
     }
 ]
 

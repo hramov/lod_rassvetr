@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,9 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('dashboard', function () {
-        return response()->json(['data' => 'Test Data']);
-    });
+    Route::get('dashboard', 'AdminController@index');
 });
 
 Route::group([
@@ -34,7 +32,5 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-
-    Route::post('register', 'RegisterController@register');
-
+    Route::post('register', 'AuthController@register');
 });

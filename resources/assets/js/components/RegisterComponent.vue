@@ -22,10 +22,10 @@
 
 <script>
     import store from '../store'
-    export default {
+export default {
         data() {
             return {
-                username: '',
+                name: '',
                 email: '',
                 password: '',
                 registerError: false,
@@ -34,16 +34,18 @@
         methods: {
             submitRegister() {
                 this.registerError = false;
-                axios.post('/api/auth/register', {
+                console.log(this.name);
+                axios.post('api/auth/register', {
                     name: this.name,
                     email: this.email,
                     password: this.password
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 }).then(response => {
                     console.log(response);
-                    // login user, store the token and redirect to dashboard
-                    store.commit('loginUser')
-                    localStorage.setItem('token', response.data.access_token)
-                    this.$router.push({ name: 'dashboard' })
+                    this.$router.push({ name: 'login' })
                 }).catch(error => {
                     this.registerError = true
                 });

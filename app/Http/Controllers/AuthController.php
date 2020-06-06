@@ -39,9 +39,13 @@ class AuthController extends Controller
     public function register(Request $request){
 
         $userData = array(
-            'name'      => $request['name'],
+            'name' => $request['name'],
+            'surname' => $request['surname'],
             'email'     =>  $request['email'],
             'password'  =>  Hash::make($request['password']),
+            'phone' => $request['phone'],
+            'birthdate' => $request['birthday'],
+            'city' => $request['city'],
             'status' => 1,
             'weight' => 1,
             'issub' => 0

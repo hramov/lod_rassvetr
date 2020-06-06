@@ -48,10 +48,10 @@
                 };
 
                 axios.post('/api/createPoll/', data, {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            },
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                },
                 )
                     .then(response => {
                         console.log(response)

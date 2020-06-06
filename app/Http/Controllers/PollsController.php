@@ -23,17 +23,6 @@ class PollsController extends Controller
     {
         $polls = Poll::all();
 
-        $user_id = Answer::where('username', Auth::user()->id);
-
-        for ($i = 0; $i < count($polls); $i++) {
-            $answers = Answer::where('id_poll', $polls[$i]->id)->get();
-            for ($j = 0; $j < count($answers); $i++) {
-                if ($answers[$j]->username == $user_id) {
-                    unset($polls[$i]);
-                }
-            }
-        }
-
         return response()->json(['polls' => $polls]);
     }
 
@@ -74,10 +63,19 @@ class PollsController extends Controller
      */
     public function show($id)
     {
-        $poll = Poll::where('id', $id)->get();
+        $poll = Poll::where('id', $id)->get()->first();
         $answers = Answer::where('id_poll', $id)->get();
+        // var_dump($answers);
+        $status = true;
 
-        return response()->json(['poll' => $poll, 'answers' => $answers]);
+        foreach ($answers as $answer) {
+            if ($answer->username == Auth::user()->id) {
+                $status = false;
+                break;
+            }
+        }
+
+        return response()->json(['poll' => $poll, 'status' => $status, 'answers' => $answers]);
     }
 
     /**

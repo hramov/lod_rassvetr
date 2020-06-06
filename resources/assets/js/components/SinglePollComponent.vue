@@ -10,8 +10,13 @@
                         <p>Название: {{ title }}</p>
                         <p>Контент: {{ content }}</p>
                         <!-- <div v-for="answer in answers" class="panel-body"> -->
-                            <a class="form-control" @click="yes">За</a>
-                            <a class="form-control" @click="no">Против</a>
+                            <div v-if="status">
+                                <a class="form-control" @click="yes">За</a>
+                                <a class="form-control" @click="no">Против</a>
+                            </div>
+                            <div v-else>
+                                <p>Вы уже отвечали на этот опрос. Ваш ответ: {{ answer }}</p>
+                            </div>
                         <!-- </div> -->
                         <a class="btn btn-primary" @click="editPoll">Edit Poll</a>
                         <a class="btn btn-primary" @click="deletePoll">Delete Poll</a>
@@ -39,7 +44,8 @@
                 isEdit: false,
                 new_title: "",
                 new_content: "",
-                answers: []
+                status: true,
+                answer: ""
             }
         },
         mounted() {
@@ -49,17 +55,24 @@
                 }
             })
             .then(response => {
-                console.log(response.data.answers);
-                this.id = response.data.poll[0].id
-                this.title = response.data.poll[0].title
-                this.content = response.data.poll[0].content
-                this.answers = response.data.answers
+                console.log(response.data.answers[0].user_answer);
+                this.id = response.data.poll.id
+                this.title = response.data.poll.title
+                this.content = response.data.poll.content
+                this.status = response.data.status
+                this.answer = response.data.answers[0].user_answer
+                if (this.answer == 0) {
+                    this.answer = "Против"
+                }
+                else {
+                    this.answer = "За"
+                }
             })
             .catch(e => console.log(e))
         },
         methods: {
             yes() {
-                axios.get('/api/answer/' + this.id + '/' + 1, {
+                axios.get('/api/answer/' + this.$route.params.id + '/' + 1, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
@@ -72,7 +85,7 @@
                 .catch(e => console.log(e))
             },
             no() {
-                axios.get('/api/answer/' + this.id + '/' + 0, {
+                axios.get('/api/answer/' + this.$route.params.id + '/' + 0, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
@@ -84,7 +97,7 @@
                 .catch(e => console.log(e))
             },
             deletePoll() {
-                axios.get('/api/deletePoll/' + this.id, {
+                axios.get('/api/deletePoll/' + this.$route.params.id, {
                     headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
@@ -102,7 +115,12 @@
             savePoll() {
                 this.$nextTick(function() {
                     this.isEdit = false
-                    axios.post('/api/updatePoll/' + this.id, {
+                    axios.post('/api/updatePoll/' + this.$route.params.id, {
+                        headers: {
+                            Authorization: 'Bearer ' + localStorage.getItem('token')
+                        }
+                    },
+                    {
                         new_title: this.new_title,
                         new_content: this.new_content
                     })
@@ -116,9 +134,6 @@
                     })
                 })
             }
-            // answer() {
-            //     axios.get('/answer/' + this.answers[0].id)
-            // }
         }
     }
 </script>

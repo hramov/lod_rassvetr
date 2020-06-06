@@ -2600,6 +2600,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2610,7 +2615,8 @@ __webpack_require__.r(__webpack_exports__);
       isEdit: false,
       new_title: "",
       new_content: "",
-      answers: []
+      status: true,
+      answer: ""
     };
   },
   mounted: function mounted() {
@@ -2621,11 +2627,18 @@ __webpack_require__.r(__webpack_exports__);
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     }).then(function (response) {
-      console.log(response.data.answers);
-      _this.id = response.data.poll[0].id;
-      _this.title = response.data.poll[0].title;
-      _this.content = response.data.poll[0].content;
-      _this.answers = response.data.answers;
+      console.log(response.data.answers[0].user_answer);
+      _this.id = response.data.poll.id;
+      _this.title = response.data.poll.title;
+      _this.content = response.data.poll.content;
+      _this.status = response.data.status;
+      _this.answer = response.data.answers[0].user_answer;
+
+      if (_this.answer == 0) {
+        _this.answer = "Против";
+      } else {
+        _this.answer = "За";
+      }
     })["catch"](function (e) {
       return console.log(e);
     });
@@ -2634,7 +2647,7 @@ __webpack_require__.r(__webpack_exports__);
     yes: function yes() {
       var _this2 = this;
 
-      axios.get('/api/answer/' + this.id + '/' + 1, {
+      axios.get('/api/answer/' + this.$route.params.id + '/' + 1, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -2651,7 +2664,7 @@ __webpack_require__.r(__webpack_exports__);
     no: function no() {
       var _this3 = this;
 
-      axios.get('/api/answer/' + this.id + '/' + 0, {
+      axios.get('/api/answer/' + this.$route.params.id + '/' + 0, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -2668,7 +2681,7 @@ __webpack_require__.r(__webpack_exports__);
     deletePoll: function deletePoll() {
       var _this4 = this;
 
-      axios.get('/api/deletePoll/' + this.id, {
+      axios.get('/api/deletePoll/' + this.$route.params.id, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -2688,7 +2701,11 @@ __webpack_require__.r(__webpack_exports__);
         var _this5 = this;
 
         this.isEdit = false;
-        axios.post('/api/updatePoll/' + this.id, {
+        axios.post('/api/updatePoll/' + this.$route.params.id, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        }, {
           new_title: this.new_title,
           new_content: this.new_content
         }).then(function (response) {
@@ -2699,10 +2716,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(e);
         });
       });
-    } // answer() {
-    //     axios.get('/answer/' + this.answers[0].id)
-    // }
-
+    }
   }
 });
 
@@ -37158,13 +37172,28 @@ var render = function() {
               _vm._v(" "),
               _c("p", [_vm._v("Контент: " + _vm._s(_vm.content))]),
               _vm._v(" "),
-              _c("a", { staticClass: "form-control", on: { click: _vm.yes } }, [
-                _vm._v("За")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "form-control", on: { click: _vm.no } }, [
-                _vm._v("Против")
-              ]),
+              _vm.status
+                ? _c("div", [
+                    _c(
+                      "a",
+                      { staticClass: "form-control", on: { click: _vm.yes } },
+                      [_vm._v("За")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "form-control", on: { click: _vm.no } },
+                      [_vm._v("Против")]
+                    )
+                  ])
+                : _c("div", [
+                    _c("p", [
+                      _vm._v(
+                        "Вы уже отвечали на этот опрос. Ваш ответ: " +
+                          _vm._s(_vm.answer)
+                      )
+                    ])
+                  ]),
               _vm._v(" "),
               _c(
                 "a",

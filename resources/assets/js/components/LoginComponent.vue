@@ -25,6 +25,7 @@
 <script>
 import store from '../store'
 export default {
+        name: "login-component",
         data() {
             return {
                 email: '',

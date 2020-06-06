@@ -59,7 +59,7 @@
                 .then(response => {
                     this.leaders = response.data.data
                     this.status = response.data.status
-                    // this.$router.push({ name: 'leader' })
+                    this.$router.push({ name: 'leader', params: {id: id} })
                     // console.log(response)
                     axios.get('/api/getLeaders', {
                     headers: {

@@ -2131,8 +2131,15 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this2.leaders = response.data.data;
-        _this2.status = response.data.status; // this.$router.push({ name: 'leader' })
-        // console.log(response)
+        _this2.status = response.data.status;
+
+        _this2.$router.push({
+          name: 'leader',
+          params: {
+            id: id
+          }
+        }); // console.log(response)
+
 
         axios.get('/api/getLeaders', {
           headers: {
@@ -2196,6 +2203,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "login-component",
   data: function data() {
     return {
       email: '',
@@ -2414,13 +2422,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       name: "",
       email: "",
       subs: "",
-      subs_array: []
+      subs_array: [],
+      status: ""
     };
   },
   mounted: function mounted() {
@@ -2432,7 +2446,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       _this.subs_array = response.data.subs_array[0];
-      console.log(response.data.subs_array[0][0].name);
+      _this.status = response.data.status;
+      console.log(response.data.status);
     });
     axios.get('/api/getLeader/' + this.$route.params.id, {
       headers: {
@@ -2446,6 +2461,41 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       console.log(error);
     });
+  },
+  methods: {
+    unsubscribe: function unsubscribe() {
+      axios.get('/api/unsubscribe/' + this.$route.params.id, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(function (response) {
+        console.log(response);
+      });
+    },
+    subscribe: function subscribe() {
+      var _this2 = this;
+
+      axios.get('/api/subscribe/' + this.$route.params.id, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(function (response) {
+        _this2.leaders = response.data.data;
+        _this2.status = response.data.status;
+        axios.get('/api/getLeaders', {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        }).then(function (response) {
+          // console.log(response);
+          _this2.leaders = response.data.data;
+          _this2.status = response.data.status;
+        });
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+      document.getElementById(id).disabled = true;
+    }
   }
 });
 
@@ -36841,7 +36891,29 @@ var render = function() {
               return _c("div", [_c("p", [_vm._v(" " + _vm._s(sub.name))])])
             }),
             _vm._v(" "),
-            _c("hr", { staticClass: "mt-2 mb-3" })
+            _c("hr", { staticClass: "mt-2 mb-3" }),
+            _vm._v(" "),
+            _vm.status == "subscriber"
+              ? _c("div", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: { click: _vm.unsubscribe }
+                    },
+                    [_vm._v("Отписаться")]
+                  )
+                ])
+              : _c("div", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: { click: _vm.subscribe }
+                    },
+                    [_vm._v("Подписаться")]
+                  )
+                ])
           ],
           2
         )

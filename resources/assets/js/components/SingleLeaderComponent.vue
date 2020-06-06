@@ -16,7 +16,12 @@
                             <p> {{ sub.name }}</p>
                         </div>
                         <hr class="mt-2 mb-3"/>
-                    <!-- </div> -->
+                        <div v-if="status == 'subscriber'">
+                            <a class="btn btn-primary" @click="unsubscribe">Отписаться</a>
+                        </div>
+                        <div v-else>
+                            <a class="btn btn-primary" @click="subscribe">Подписаться</a>
+                        </div>
                 </div>
 
             </div>
@@ -31,7 +36,8 @@
                 name: "",
                 email: "",
                 subs: "",
-                subs_array: []
+                subs_array: [],
+                status: ""
             }
         },
         mounted() {
@@ -42,7 +48,8 @@
             })
             .then(response => {
                 this.subs_array = response.data.subs_array[0];
-                console.log(response.data.subs_array[0][0].name)
+                this.status = response.data.status;
+                console.log(response.data.status)
             })
             axios.get('/api/getLeader/' + this.$route.params.id, {
                 headers: {
@@ -57,6 +64,41 @@
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
+        methods: {
+            unsubscribe() {
+                axios.get('/api/unsubscribe/' + this.$route.params.id, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    } 
+                })
+                .then(response => {
+                    console.log(response)
+                })
+            },
+            subscribe() {
+                axios.get('/api/subscribe/' + this.$route.params.id, {
+                    headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+                })
+                .then(response => {
+                    this.leaders = response.data.data
+                    this.status = response.data.status
+                    axios.get('/api/getLeaders', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                    })
+                    .then(response => {
+                        // console.log(response);
+                        this.leaders = response.data.data;
+                        this.status = response.data.status;
+                    });
+                })
+                .catch(err => console.log(err))
+                document.getElementById(id).disabled = true
+            }
     }
+}
 </script>

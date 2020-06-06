@@ -42,40 +42,33 @@ class AdminController extends Controller
     }
 
     public function subscribe($id) {
-        $user = User::find($id);
-        $subs = $user->subs;
-        $subs += 1;
-        User::where('id', $id)->update(['subs' => $subs]);
-        $user = User::find($id);
-        $user_status = $user->status;
-        
-        if($user_status == 1) {
-            $user_status += 1;
-            User::where('id', $id)->update(['status' => $user_status]);
-            
-            $users_rel = new Users_rel();
-            $users_rel->leader_id = $id;
-            $users_rel->pleb_id = Auth::user()->id;
-            $users_rel->save();
-        }
-
-
-
-        $weight = User::find($id)->weight;
-        $weight += 1;
-        User::where('id', $id)->update(['weight' => $weight]);
-
         $user = User::find(Auth::user()->id);
-        $user_status = $user->status;
+        $leader = User::find($id);
 
-        if($user_status == 1) {
-            $user_status -= 1;
-            User::where('id', Auth::user()->id)->update(['status' => $user_status]);
+        if($user->status == 1) {
+            $leader->weight += ($user->weight);
+            $leader->status = 2;
+            User::where('id', $id)->update(['weight' => $leader->weight, 'status' => $leader->status]);
+
+            $user->status = 0;
+            $user->weight = 0;
+        }
+        else if ($user->status == 2) {
+            $leader->weight += $user->weight;
+            $leader->status = 3;
+            User::where('id', $id)->update(['weight' => $leader->weight, 'status' => $leader->status]);
         }
 
-        $weight = User::find(Auth::user()->id)->weight;
-        $weight -= 1;
-        User::where('id', Auth::user()->id)->update(['weight' => $weight]);
+        $user->issub = 1;
+        User::where('id', Auth::user()->id)->update(['weight' => $user->weight, 'status' => $user->status, 'issub' => $user->issub]);
+
+        //users_rels
+        $users_rel = new Users_rel();
+        $users_rel->leader_id = $id;
+        $users_rel->pleb_id = $user->id;
+        $users_rel->save();
+        //
+
     }
 
     public function reload() {
@@ -92,12 +85,80 @@ class AdminController extends Controller
     public function getSubs($id) {
         $users_id = Users_rel::where('leader_id', $id)->get();
         $subs_array = [];
+        $status = "";
+        
+        if (count($users_id) == 0) {
+            $status = 'nsubscriber';
+        }
 
         for ($i = 0; $i < count($users_id); $i++) {
             $subs = User::where('id', $users_id[$i]->pleb_id)->get();
+
+            if($users_id[$i]->pleb_id == Auth::user()->id) {
+                $status = 'subscriber';
+            }
+            else {
+                $status = 'nsubscriber';
+            }
+
             array_push($subs_array, $subs);
         }   
-        return response()->json(['subs_array' => $subs_array]);
+        return response()->json(['subs_array' => $subs_array, 'status' => $status]);
+    }
+
+    public function unsubscribe($id) {
+
+        DB::table('users_rels')->where('pleb_id', Auth::user()->id)->delete();
+
+        $user = User::where('id', Auth::user()->id)->get();
+        $leader = User::where('id', $id)->get();
+
+        if($user->status == 0) {
+            $user->status = 1;
+            $user->weight = 1;
+            $user->isSub = 0;
+            User::where('id', Auth::user()->id)->update(['weight' => $user->weight, 'status' => $user->status, 'issub' => $user->issub]);
+        }
+        else if ($user->status == 2) {
+            
+        }
+            
+        //     $subs_rows = Users_rel::where('leader_id', $id)->get();
+        //     if (count($subs_rows) == 0) {
+        //         $leader->status = 1;
+        //         $leader->weight = 1;
+        //         $status = 'ordinary';
+        //     }
+        //     else {
+        //         $leader->weight -= 1;
+        //     }    
+        // }
+        // else if ($user->status == 2) {
+
+        // }
+
+        // else if($user->status == 2) {
+        //     $subs_rows = Users_rel::where('leader_id', $id)->get();
+        //     $pleb_subs_rows = Users_rel::where('leader_id', Auth::user()->id)->get();
+            
+        //     if (count($subs_rows) == 0)
+        //     {
+        //         $user->status = 1;
+        //         $leader->weight = 1;
+        //     }
+        //     else {
+        //         $user->weight -= count($pleb_subs_rows);
+        //     }
+        // }   
+
+        // User::where('id', Auth::user()->id)->update(['status' => $user->status, 'weight' => $user->subs]);
+        
+        // if ($leader->subs == 0) {
+        //     $leader->status = 1;
+        // }
+
+        // $leader->subs -= 1;
+
     }
 
 }

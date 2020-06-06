@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('reload', 'AdminController@reload');
     Route::get('/getLeader/{id}', 'AdminController@getLeader');
     Route::get('/getSubs/{id}', 'AdminController@getSubs');
+    Route::get('/unsubscribe/{id}', 'AdminController@unsubscribe');
 });
 
 Route::group([

@@ -11,9 +11,11 @@
 <!--                     <div v-for="leader in leaders" class="panel-body"> -->
                         <p>Название: {{ name }}</p>
                         <p>Контент: {{ email }}</p>
-                        <p>Подписчиков: {{ subs }}</p>
+                        <p>Подписчиков: {{ weight }}</p>
+                        <p>Вес: {{ weight }}</p>
+                        <h3>Подписчики</h3>
                         <div v-for="sub in subs_array">
-                            <p> {{ sub.name }}</p>
+                            <p><a :href="'/#/leader/' + sub.id">{{ sub.name }}</a></p>
                         </div>
                         <hr class="mt-2 mb-3"/>
                         <div v-if="status == 'subscriber'">
@@ -35,7 +37,7 @@
             return {
                 name: "",
                 email: "",
-                subs: "",
+                weight: "",
                 subs_array: [],
                 status: ""
             }
@@ -57,10 +59,13 @@
                 }
             })
             .then(response => {
-                // console.log(response.data.user[0])
+                console.log(response.data.user[0])
                 this.name = response.data.user[0].name
                 this.email = response.data.user[0].email
-                this.subs = response.data.user[0].subs
+                this.weight = response.data.user[0].weight
+                if (this.weight == null) {
+                    this.weight = 0;
+                }
             }).catch(error => {
                 console.log(error)
             })
@@ -97,7 +102,7 @@
                     });
                 })
                 .catch(err => console.log(err))
-                document.getElementById(id).disabled = true
+                // document.getElementById(id).disabled = true
             }
     }
 }

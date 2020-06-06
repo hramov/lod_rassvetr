@@ -29,7 +29,11 @@
             }
         },
         mounted() {
-            axios.get('/getPolls')
+            axios.get('/api/getPolls', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
             .then(response => {
                 this.polls = response.data.polls
             }).catch(error => {

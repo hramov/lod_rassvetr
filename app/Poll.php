@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Poll extends Model
 {
 	protected $fillable = [
-        'title', 'description', 'content',
+        'title', 'description', 'content', 'yes', 'no'
     ];
     
 }

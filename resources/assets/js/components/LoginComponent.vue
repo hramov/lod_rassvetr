@@ -17,8 +17,8 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <a class="btn btn-lg btn-primary btn-block" :href="'/#/register'">Sign Up</a>
         </form>
-
     </div>
 </template>
 

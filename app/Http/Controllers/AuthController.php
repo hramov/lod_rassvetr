@@ -42,6 +42,9 @@ class AuthController extends Controller
             'name'      => $request['name'],
             'email'     =>  $request['email'],
             'password'  =>  Hash::make($request['password']),
+            'status' => 1,
+            'weight' => 1,
+            'issub' => 0
         );
 
         //save to DB user details

@@ -5,9 +5,15 @@ use App\Poll;
 use App\Answer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PollsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +22,18 @@ class PollsController extends Controller
     public function index()
     {
         $polls = Poll::all();
+
+        $user_id = Answer::where('username', Auth::user()->id);
+
+        for ($i = 0; $i < count($polls); $i++) {
+            $answers = Answer::where('id_poll', $polls[$i]->id)->get();
+            for ($j = 0; $j < count($answers); $i++) {
+                if ($answers[$j]->username == $user_id) {
+                    unset($polls[$i]);
+                }
+            }
+        }
+
         return response()->json(['polls' => $polls]);
     }
 
@@ -42,6 +60,8 @@ class PollsController extends Controller
         $poll->title = $request->title;
         $poll->description = $request->description;
         $poll->content = $request->content;
+        $poll->yes = 0;
+        $poll->no = 0;
 
         $poll->save();
     }
@@ -55,7 +75,9 @@ class PollsController extends Controller
     public function show($id)
     {
         $poll = Poll::where('id', $id)->get();
-        return response()->json(['poll' => $poll]);
+        $answers = Answer::where('id_poll', $id)->get();
+
+        return response()->json(['poll' => $poll, 'answers' => $answers]);
     }
 
     /**
@@ -95,7 +117,27 @@ class PollsController extends Controller
         Poll::where('id', $id)->delete();
     }
 
-    public function getOptions($id) {
+    public function getAnswer($id, $result) {
+        $answer = new Answer();
 
+        $answer->username = Auth::user()->id;
+        $answer->id_poll = $id;
+        var_dump(Auth::user()->id);
+        if($result == 1) {
+            $yes_res = Poll::where('id', $id)->get()->first();;
+            $yes_res = $yes_res->yes;
+            $yes_res += 1;
+            Poll::where('id', $id)->update(['yes' => $yes_res]);
+            $answer->user_answer = $result;
+        }
+        else {
+            $no_res = Poll::where('id', $id)->get()->first();;
+            $no_res = $no_res->no;
+            $no_res += 1;
+            Poll::where('id', $id)->update(['no' => $no_res]);
+            
+            $answer->user_answer = $result;
+        }
+        $answer->save();
     }
 }

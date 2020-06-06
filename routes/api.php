@@ -26,6 +26,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/getLeader/{id}', 'AdminController@getLeader');
     Route::get('/getSubs/{id}', 'AdminController@getSubs');
     Route::get('/unsubscribe/{id}', 'AdminController@unsubscribe');
+    Route::get('answer/{id}/{result}', 'PollsController@getAnswer');
+    Route::get('/singlePoll/{id}', 'PollsController@show');
+    Route::get('/deletePoll/{id}', 'PollsController@destroy');
+    Route::post('/updatePoll/{id}', 'PollsController@update');
+    Route::post('/createPoll', 'PollsController@store');
+    Route::get('/getPolls', 'PollsController@index');
+    Route::post('/createPoll', 'PollsController@store');
 });
 
 Route::group([

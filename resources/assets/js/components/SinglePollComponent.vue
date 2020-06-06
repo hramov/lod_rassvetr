@@ -9,16 +9,17 @@
                         <p>ID: {{ id }} </p>
                         <p>Название: {{ title }}</p>
                         <p>Контент: {{ content }}</p>
-                        <div v-for="option in options" class="panel-body">
-                            <input type="radio" />
-                        </div>
+                        <!-- <div v-for="answer in answers" class="panel-body"> -->
+                            <a class="form-control" @click="yes">За</a>
+                            <a class="form-control" @click="no">Против</a>
+                        <!-- </div> -->
                         <a class="btn btn-primary" @click="editPoll">Edit Poll</a>
                         <a class="btn btn-primary" @click="deletePoll">Delete Poll</a>
                 </div>
                 <div v-else class="panel panel-default">
                     <div class="panel-heading">Poll</div>
                         <input type="text" name="" v-model="new_title" :placeholder="title">
-                        <input type="text" name="" v-model="new_content" :placeholder="content">
+                        <textarea class="form-control" v-model="new_content" :placeholder="content"></textarea>
                         <a class="btn btn-primary" @click="savePoll">Save</a>
                         <a class="btn btn-primary" @click="deletePoll">No</a>
                 </div>
@@ -37,25 +38,57 @@
                 options: [],
                 isEdit: false,
                 new_title: "",
-                new_content: ""
+                new_content: "",
+                answers: []
             }
         },
         mounted() {
-            axios.get('/singlePoll/' + this.$route.params.id)
+            axios.get('/api/singlePoll/' + this.$route.params.id, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
             .then(response => {
+                console.log(response.data.answers);
                 this.id = response.data.poll[0].id
                 this.title = response.data.poll[0].title
                 this.content = response.data.poll[0].content
-            })
-            .then(function() {
-                axios.get('/getOptions/' + this.id).
-                then(response => console.log(response))
+                this.answers = response.data.answers
             })
             .catch(e => console.log(e))
         },
         methods: {
+            yes() {
+                axios.get('/api/answer/' + this.id + '/' + 1, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log(response)
+                    this.$router.push({ name: 'polls' })
+                }
+                    )
+                .catch(e => console.log(e))
+            },
+            no() {
+                axios.get('/api/answer/' + this.id + '/' + 0, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log(response)
+                    this.$router.push({ name: 'polls' })
+                })
+                .catch(e => console.log(e))
+            },
             deletePoll() {
-                axios.get('/deletePoll/' + this.id)
+                axios.get('/api/deletePoll/' + this.id, {
+                    headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+                })
                 .then(response => {
                     console.log(response)
                     this.$router.push('/polls')
@@ -69,7 +102,7 @@
             savePoll() {
                 this.$nextTick(function() {
                     this.isEdit = false
-                    axios.post('/updatePoll/' + this.id, {
+                    axios.post('/api/updatePoll/' + this.id, {
                         new_title: this.new_title,
                         new_content: this.new_content
                     })
@@ -83,6 +116,9 @@
                     })
                 })
             }
+            // answer() {
+            //     axios.get('/answer/' + this.answers[0].id)
+            // }
         }
     }
 </script>

@@ -46,7 +46,10 @@
 
                 axios.post('/createPoll/', data,
                 )
-                    .then(response => console.log(response))
+                    .then(response => {
+                        console.log(response)
+                        this.$router.push('polls') 
+                    })
                     .catch(error => {
                         console.log(error)
                     })

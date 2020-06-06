@@ -10,6 +10,9 @@
                     <div class="panel-heading">Dashboard</div>
                     <div class="panel-body">
                         <p>Data: {{ data.name }} {{ data.email}}</p>
+                        <p>Status: {{ data.status }} </p>
+                        <router-link :to="{ name: 'polls' }">Polls</router-link>
+                        <router-link :to="{ name: 'leaders' }">Leaders</router-link>
                     </div>
                 </div>
 

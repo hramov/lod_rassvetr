@@ -9,12 +9,15 @@ import LogoutComponent from './components/LogoutComponent'
 import RegisterComponent from './components/RegisterComponent'
 import PollsComponent from './components/PollsComponent'
 import CreatePollComponent from './components/CreatePollComponent'
+import SinglePollComponent from './components/SinglePollComponent'
+import LeadersComponent from './components/LeadersComponent'
+
 import store from './store'
 
 const routes = [
     {
         path: '/',
-        redirect: { name: 'register' }
+        redirect: { name: 'login' }
     },
     {
         path: '/dashboard',
@@ -45,8 +48,25 @@ const routes = [
     {
         path: '/createPoll',
         name: 'createPoll',
-        component: CreatePollComponent
-    }
+        component: CreatePollComponent,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/getpoll/:id',
+        name: 'getPoll',
+        component: SinglePollComponent
+
+    },
+    {
+        path: '/leaders',
+        name: 'leaders',
+        component: LeadersComponent
+    },
+    {
+        path: '/leader',
+        name: 'leader',
+        component: SingleLeaderComponent
+    },
 ]
 
 const router = new VueRouter({

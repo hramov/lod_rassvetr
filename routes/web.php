@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('app');
 });
 
-// Route::post('/register', 'RegController@register');
 Route::post('/createPoll', 'PollsController@store');
+
 Route::get('/getPolls', 'PollsController@index');
+
+Route::get('/singlePoll/{id}', 'PollsController@show');
+Route::get('/deletePoll/{id}', 'PollsController@destroy');
+Route::post('/updatePoll/{id}', 'PollsController@update');
+Route::get('/getOptions/{id}', 'PollsController@getOptions');
+
+Route::get('/getLeaders', 'UserController@index');
+// Route::get('/subscribe/{id}', 'UserController@subscribe');

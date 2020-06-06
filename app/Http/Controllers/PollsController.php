@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Poll;
+use App\Answer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,6 @@ class PollsController extends Controller
      */
     public function index()
     {
-        $poll = new Poll;
         $polls = Poll::all();
         return response()->json(['polls' => $polls]);
     }
@@ -54,7 +54,8 @@ class PollsController extends Controller
      */
     public function show($id)
     {
-        //
+        $poll = Poll::where('id', $id)->get();
+        return response()->json(['poll' => $poll]);
     }
 
     /**
@@ -77,7 +78,10 @@ class PollsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $new_title = $request->new_title;
+        $new_content = $request->new_content;
+
+        Poll::where('id', $id)->update(['title' => $new_title, 'content' => $new_content]);
     }
 
     /**
@@ -88,6 +92,10 @@ class PollsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Poll::where('id', $id)->delete();
+    }
+
+    public function getOptions($id) {
+
     }
 }

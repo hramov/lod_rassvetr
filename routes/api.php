@@ -19,7 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('dashboard', 'AdminController@index');
-    // Route::post('createPoll', 'PollsController@store');
+    Route::get('getLeaders', 'AdminController@getLeaders');
+    Route::get('subscribe/{id}', 'AdminController@subscribe');
+    Route::get('updateStatus/{id}', 'AdminController@updateStatus');
+    Route::get('reload', 'AdminController@reload');
+    Route::get('/getLeader', 'AdminController@getLeader');
 });
 
 Route::group([

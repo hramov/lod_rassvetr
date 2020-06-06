@@ -15,16 +15,13 @@ window.Vue = require('vue');
  */
 
 import router from './routes.js';
-import AppComponent from './components/AppComponent'
-import Vuetify from '../../plugins/vuetify'
-import HeaderComponent from './components/HeaderComponent'
+import Vuetify from './vuetify'
+import App from './App'
+import store from './store'
 
-// import store from '../store'
-import VueSession from 'vue-session'
-Vue.use(VueSession)
-
-const app = new Vue({
+new Vue({
 	vuetify: Vuetify,
-    components: { AppComponent, HeaderComponent },
-    router
+	render: h => h(App),
+    router,
+    store
 }).$mount('#app')

@@ -10,9 +10,6 @@
                     <div class="panel-heading">Dashboard</div>
                     <div class="panel-body">
                         <p>Data: {{ data.name }} {{ data.email}}</p>
-                        <p>Status: {{ data.status }} </p>
-                        <router-link :to="{ name: 'polls' }">Polls</router-link>
-                        <router-link :to="{ name: 'leaders' }">Leaders</router-link>
                     </div>
                 </div>
 
@@ -35,8 +32,8 @@
                 }
             })
             .then(response => {
-                this.data = response.data.data[0]
-                console.log(response.data.data[0])
+                this.data = response.data.data
+                console.log(response)
             }).catch(error => {
             })
         }

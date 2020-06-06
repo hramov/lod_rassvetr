@@ -14,8 +14,7 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="6">
-              <v-icon ><i class="fas fa-user"></i></v-icon>
-              <v-text-field label="Имя*" prepend-inner-icon='mdi-account' required></v-text-field>
+              <v-text-field label="Имя*" prepend-inner-icon='mdi-account' required v-model="name"></v-text-field>
 
             </v-col>
             <v-col cols="12" sm="6" md="6">         
@@ -23,19 +22,20 @@
                 label="Фамилия*"
                 prepend-inner-icon='mdi-account-outline'
                 required
+                v-model="surname"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Email*"  prepend-inner-icon="mdi-email" required></v-text-field>
+              <v-text-field label="Email*"  prepend-inner-icon="mdi-email" required v-model="email"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Пароль*" :prepend-inner-icon='compareLock' type="password" required v-model="user_password1" @blur="comparePassword" :style="equalColor"></v-text-field>
+              <v-text-field label="Пароль*" :prepend-inner-icon='compareLock' type="password" required v-model="password" @blur="comparePassword" :style="equalColor"></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field label="Повторить пароль*" :prepend-inner-icon='compareLock' type="password" required v-model="user_password2" @blur="comparePassword" :style='equalColor'></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Номер телефона" prepend-inner-icon='mdi-phone'></v-text-field>
+              <v-text-field label="Номер телефона" prepend-inner-icon='mdi-phone' v-model="phone"></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" >
               <v-menu
@@ -48,7 +48,7 @@
               >
                   <template v-slot:activator="{ on }">
                   <v-text-field
-                      v-model="date"
+                      v-model="birthdate"
                       label="Дата рождения"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -57,7 +57,7 @@
                   </template>
                   <v-date-picker
                   ref="picker"
-                  v-model="date"
+                  v-model="birthdate"
                   :max="new Date().toISOString().substr(0, 10)"
                   min="1940-01-01"
                   @change="save"
@@ -78,7 +78,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="isLogin = true; isRegister = false">Войти</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">Зарегистрироваться</v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false; submitRegister()" >Зарегистрироваться</v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="isLogin">
@@ -88,17 +88,17 @@
       </v-card-title>
       <v-card-text>
           <v-col cols="12">
-              <v-text-field label="Email или Номер телефона" prepend-inner-icon='mdi-email' required></v-text-field>
+              <v-text-field label="Email" prepend-inner-icon='mdi-email' required v-model="loginEmail"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Пароль" prepend-inner-icon='mdi-lock' type="password" required></v-text-field>
+              <v-text-field label="Пароль" prepend-inner-icon='mdi-lock' type="password" required v-model="loginPassword"></v-text-field>
             </v-col>
       </v-card-text>
       <v-card-actions>
           
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="isRegister = true; isLogin = false">Зарегистрироваться</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Войти</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false; submitLogin()">Войти</v-btn>
       </v-card-actions>
       </v-card>
   </v-dialog>
@@ -110,14 +110,22 @@ export default {
     data() {
       return{
       dialog: false,
-      isRegister: true,
-      isLogin: false,
-      date: null,
-      menu: false, 
-      user_password1: '',
+      isRegister: false,
+      isLogin: true,
+      birthdate: null,
+      menu: false,
       user_password2: '',
       compareLock: 'mdi-lock-open',
-      equalColor:'color: black'
+      equalColor:'color: black',
+        name: '',
+        surname: '',
+        email: '',
+        password: '',
+        phone:'',
+        city: '',
+        registerError: false,
+          loginEmail: '',
+          loginPassword: ''
       }
     },
     watch: {
@@ -126,48 +134,61 @@ export default {
       },
     },
     methods: {
-      save (date) {
-        this.$refs.menu.save(date)
+      save (birthdate) {
+        this.$refs.menu.save(birthdate)
       },
       comparePassword() {
-        if (this.user_password1 == this.user_password2){
+        if (this.password == this.user_password2){
           this.compareLock = 'mdi-lock';
           this.equalColor = 'color: green';
         }
         else {
           this.compareLock = 'mdi-lock-open';
         }
-      },
+        },
+      submitRegister() {
+              this.registerError = false;
+              axios.post('api/auth/register', {
+                  name: this.name,
+                  surname: this.surname,
+                  email: this.email,
+                  password: this.password,
+                  phone:this.phone,
+                  birthdate: this.birthdate,
+                  city: this.city,
+
+              }, {
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+              }).then(response => {
+                  console.log(response);       
+                      this.isLogin = true; 
+                      this.isRegister = false;
+              }).catch(error => {
+                  this.registerError = true
+              });
+        },
+        submitLogin() {
+                this.loginError = false;
+                axios.post('/api/auth/login', {
+                    email: this.loginEmail,
+                    password: this.loginPassword
+                }).then(response => {
+                    // login user, store the token and redirect to dashboard
+                    store.commit('loginUser')
+                    localStorage.setItem('token', response.data.access_token)
+                    this.$router.push({ name: 'dashboard' })
+                }).catch(error => {
+                    this.loginError = true
+                    this.session_data_error = true
+                    console.log("ERROR logging")
+
+                });
+            },
+      
     },
   }
-// export default {
-//         data() {
-//             return {
-//                 email: '',
-//                 password: '',
-//                 loginError: false,
-//                 session_data_error: false
-//             }
-//         },
-//         methods: {
-//             submitLogin() {
-//                 this.loginError = false;
-//                 axios.post('/api/auth/login', {
-//                     email: this.email,
-//                     password: this.password
-//                 }).then(response => {
-//                     // login user, store the token and redirect to dashboard
-//                     store.commit('loginUser')
-//                     localStorage.setItem('token', response.data.access_token)
-//                     this.$router.push({ name: 'dashboard' })
-//                 }).catch(error => {
-//                     this.loginError = true
-//                     this.session_data_error = true
-//                     console.log("ERROR logging")
-//                 });
-//             }
-//         }
-//     }
 </script>
 
 <style>

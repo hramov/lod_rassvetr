@@ -11,6 +11,7 @@ import PollsComponent from './components/PollsComponent'
 import CreatePollComponent from './components/CreatePollComponent'
 import SinglePollComponent from './components/SinglePollComponent'
 import LeadersComponent from './components/LeadersComponent'
+import SingleLeaderComponent from './components/SingleLeaderComponent'
 
 import store from './store'
 
@@ -63,7 +64,7 @@ const routes = [
         component: LeadersComponent
     },
     {
-        path: '/leader',
+        path: '/leader/:id',
         name: 'leader',
         component: SingleLeaderComponent
     },

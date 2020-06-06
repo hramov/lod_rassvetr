@@ -3,18 +3,20 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <a class="btn btn-primary" @click="$router.go(-1)">Back</a>
-                <a class="btn btn-primary" @click="reload">Обновить</a>
 
                 <h1>Leader {{ name }}</h1>
                 <hr class="mt-2 mb-3"/>
                 <div class="panel panel-default">
                     <!-- <div class="panel-heading">Leaders</div> -->
-                    <div v-for="leader in leaders" class="panel-body">
+<!--                     <div v-for="leader in leaders" class="panel-body"> -->
                         <p>Название: {{ name }}</p>
                         <p>Контент: {{ email }}</p>
                         <p>Подписчиков: {{ subs }}</p>
+                        <div v-for="sub in subs_array">
+                            <p> {{ sub.name }}</p>
+                        </div>
                         <hr class="mt-2 mb-3"/>
-                    </div>
+                    <!-- </div> -->
                 </div>
 
             </div>
@@ -26,23 +28,34 @@
     export default {
         data() {
             return {
-                id: "",
-                data: "",
-                leaders: [],
-                status: ""
+                name: "",
+                email: "",
+                subs: "",
+                subs_array: []
             }
         },
         mounted() {
-            axios.get('/api/getLeader/', {
+            axios.get('/api/getSubs/' + this.$route.params.id, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
             .then(response => {
-                this.leaders = response.data.data
-                this.status = response.data.status;
-                // console.log(response.data.status)
+                this.subs_array = response.data.subs_array[0];
+                console.log(response.data.subs_array[0][0].name)
+            })
+            axios.get('/api/getLeader/' + this.$route.params.id, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                // console.log(response.data.user[0])
+                this.name = response.data.user[0].name
+                this.email = response.data.user[0].email
+                this.subs = response.data.user[0].subs
             }).catch(error => {
+                console.log(error)
             })
         }
     }

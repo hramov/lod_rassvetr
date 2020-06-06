@@ -23,7 +23,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('subscribe/{id}', 'AdminController@subscribe');
     Route::get('updateStatus/{id}', 'AdminController@updateStatus');
     Route::get('reload', 'AdminController@reload');
-    Route::get('/getLeader', 'AdminController@getLeader');
+    Route::get('/getLeader/{id}', 'AdminController@getLeader');
+    Route::get('/getSubs/{id}', 'AdminController@getSubs');
 });
 
 Route::group([

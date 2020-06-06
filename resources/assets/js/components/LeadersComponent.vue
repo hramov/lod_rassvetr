@@ -12,6 +12,8 @@
                         <p>Название: {{ leader.name }}</p>
                         <p>Контент: {{ leader.email }}</p>
                         <p>Подписчиков: {{ leader.subs }}</p>
+                        <a :href="'/#/leader/' + leader.id" class="button success">В профиль</a> 
+                        
                         <div v-if="status == 'ordinary'">
                             <button v-bind:id="leader.id" @click="subs(leader.id)" class="btn btn-primary">Подписаться</button> 
                         </div>
@@ -47,19 +49,6 @@
             }).catch(error => {
             })
         },
-        // update() {
-        //     axios.get('/api/getLeaders', {
-        //         headers: {
-        //         Authorization: 'Bearer ' + localStorage.getItem('token')
-        //     }
-        //     })
-        //     .then(response => {
-        //         console.log(response);
-        //         this.leaders = response.data.data;
-        //         this.status = response.data.status;
-        //     });
-        // },
-
         methods: {
             subs(id) {
                 axios.get('/api/subscribe/' + id, {
@@ -70,7 +59,7 @@
                 .then(response => {
                     this.leaders = response.data.data
                     this.status = response.data.status
-                    this.$router.push({ name: 'leader' })
+                    // this.$router.push({ name: 'leader' })
                     // console.log(response)
                     axios.get('/api/getLeaders', {
                     headers: {

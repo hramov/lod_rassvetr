@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\User;
+use App\Users_rel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -51,7 +52,14 @@ class AdminController extends Controller
         if($user_status == 1) {
             $user_status += 1;
             User::where('id', $id)->update(['status' => $user_status]);
+            
+            $users_rel = new Users_rel();
+            $users_rel->leader_id = $id;
+            $users_rel->pleb_id = Auth::user()->id;
+            $users_rel->save();
         }
+
+
 
         $weight = User::find($id)->weight;
         $weight += 1;
@@ -67,13 +75,29 @@ class AdminController extends Controller
 
         $weight = User::find(Auth::user()->id)->weight;
         $weight -= 1;
-        User::where('id', Auth::user()->id)->update(['weight' => $weight]); 
+        User::where('id', Auth::user()->id)->update(['weight' => $weight]);
     }
 
     public function reload() {
         User::where('id', '>', 0)->update(['status' => 1, 'weight' => 1]);
     }
 
-    // public function 
+    public function getLeader($id) {
+        $user = User::where('id', $id)->get();
+        // var_dump($user);
+        // $user = User::find($id);
+        return response()->json(['user' => $user]);
+    }
+
+    public function getSubs($id) {
+        $users_id = Users_rel::where('leader_id', $id)->get();
+        $subs_array = [];
+
+        for ($i = 0; $i < count($users_id); $i++) {
+            $subs = User::where('id', $users_id[$i]->pleb_id)->get();
+            array_push($subs_array, $subs);
+        }   
+        return response()->json(['subs_array' => $subs_array]);
+    }
 
 }

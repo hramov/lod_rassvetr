@@ -24,6 +24,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'mainContent',
   components: {
     sliderApp: _sliderApp__WEBPACK_IMPORTED_MODULE_0__["default"],
     votesApp: _votesApp__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -90,36 +91,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      results: [{
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: 'Описание',
-        date: '11.01.1970',
-        city: 'Город'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: 'Описание',
-        date: '11.01.1970',
-        city: 'Город'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: 'Описание',
-        date: '11.01.1970',
-        city: 'Город'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: 'Описание',
-        date: '11.01.1970',
-        city: 'Город'
-      }]
+      polls: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/getClosedPolls/', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(function (response) {
+      _this.polls = response.data.polls;
+      console.log(response.data.polls[0]);
+    })["catch"](function (error) {});
   }
 });
 
@@ -219,28 +207,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      votes: [{
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        rate: '20'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        rate: '20'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        rate: '20'
-      }, {
-        name: 'Название голосование',
-        pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200',
-        prew: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        rate: '20'
-      }]
+      polls: []
     };
+  },
+  // data: () => ({
+  //     votes :[
+  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
+  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
+  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
+  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
+  //     ]
+  // }),
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/getPolls/', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(function (response) {
+      _this.polls = response.data.polls;
+      console.log(response.data.polls[0]);
+    })["catch"](function (error) {});
+  },
+  methods: {// vote() {
+    //     this.$router.push('/#/singlePoll/');
+    // }
   }
 });
 
@@ -301,10 +312,10 @@ var render = function() {
       _c(
         "v-row",
         { attrs: { justify: "center" } },
-        _vm._l(_vm.results, function(result, index) {
+        _vm._l(_vm.polls, function(poll) {
           return _c(
             "v-col",
-            { key: index, attrs: { cols: "3" } },
+            { attrs: { cols: "3" } },
             [
               _c(
                 "v-card",
@@ -314,9 +325,13 @@ var render = function() {
                     "v-img",
                     {
                       staticClass: "white--text align-end",
-                      attrs: { height: "200px", src: result.pic }
+                      attrs: {
+                        height: "200px",
+                        src:
+                          "https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200"
+                      }
                     },
-                    [_c("v-card-title", [_vm._v(_vm._s(result.name))])],
+                    [_c("v-card-title", [_vm._v(_vm._s(poll.name))])],
                     1
                   ),
                   _vm._v(" "),
@@ -329,19 +344,19 @@ var render = function() {
                         { attrs: { justify: "center" } },
                         [
                           _c("v-col", { attrs: { cols: "5" } }, [
-                            _vm._v(_vm._s(result.date))
+                            _vm._v(_vm._s(poll.created_at))
                           ]),
                           _vm._v(" "),
                           _c("v-spacer"),
                           _vm._v(" "),
                           _c("v-col", { attrs: { cols: "3" } }, [
-                            _vm._v(_vm._s(result.city))
+                            _vm._v(_vm._s(poll.city))
                           ])
                         ],
                         1
                       ),
                       _vm._v(" "),
-                      _c("div", [_vm._v(_vm._s(result.prew))])
+                      _c("div", [_vm._v(_vm._s(poll.description))])
                     ],
                     1
                   ),
@@ -458,10 +473,10 @@ var render = function() {
       _c(
         "v-row",
         { attrs: { justify: "center" } },
-        _vm._l(_vm.votes, function(vote, index) {
+        _vm._l(_vm.polls, function(poll) {
           return _c(
             "v-col",
-            { key: index, attrs: { cols: "3" } },
+            { attrs: { cols: "3" } },
             [
               _c(
                 "v-card",
@@ -471,37 +486,31 @@ var render = function() {
                     "v-img",
                     {
                       staticClass: "white--text align-end",
-                      attrs: { height: "200px", src: vote.pic }
+                      attrs: {
+                        height: "200px",
+                        src:
+                          "https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200"
+                      }
                     },
-                    [_c("v-card-title", [_vm._v(_vm._s(vote.name))])],
+                    [_c("v-card-title", [_vm._v(_vm._s(poll.title))])],
                     1
                   ),
                   _vm._v(" "),
                   _c("v-card-text", { staticClass: "text--primary" }, [
-                    _c("div", [_vm._v(_vm._s(vote.prew))]),
+                    _c("div", [_vm._v(_vm._s(poll.description))]),
                     _vm._v(" "),
                     _c("div", { staticClass: "mt-2" }, [
                       _c("strong", [
-                        _vm._v(
-                          "За голосование Вы получите +" +
-                            _vm._s(vote.rate) +
-                            " баллов"
-                        )
+                        _vm._v("За голосование Вы получите +20 баллов")
                       ])
                     ])
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-btn", { attrs: { color: "green", text: "" } }, [
-                        _vm._v(
-                          "\n                    Голосовать\n                "
-                        )
-                      ])
-                    ],
-                    1
-                  )
+                  _c("v-card-actions", [
+                    _c("a", { attrs: { href: "/#/singlePoll/" + poll.id } }, [
+                      _vm._v("Голосовать")
+                    ])
+                  ])
                 ],
                 1
               )

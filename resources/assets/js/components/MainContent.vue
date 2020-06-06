@@ -12,6 +12,7 @@
 	import resultsApp from './resultsApp'
 
 	export default {
+		name: 'mainContent',
 		components: {
 			sliderApp,
 			votesApp,

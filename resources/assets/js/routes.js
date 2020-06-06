@@ -12,6 +12,16 @@ export default new Router({
       path: '/',
       name: 'mainContent',
       component: () => import('./components/MainContent.vue')
-    }
+    },
+    {
+      path: '/createPoll',
+      name: 'createPoll',
+      component: () => import('./components/CreatePollComponent.vue')
+    },
+    {
+      path: '/singlePoll/:id',
+      name: 'singlePoll',
+      component: () => import('./components/SinglePollComponent.vue')
+    },
   ]
 });

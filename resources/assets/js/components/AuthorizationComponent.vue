@@ -1,8 +1,11 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on }">
-      <v-btn dark color="primary" v-on="on">
+      <v-btn v-if="!isLogin" dark color="primary" v-on="on">
         Войти
+      </v-btn>
+      <v-btn v-else dark color="primary" @click="logout">
+        Выйти
       </v-btn>
     </template>
     <v-card v-if="isRegister">
@@ -165,6 +168,7 @@ export default {
                   console.log(response);       
                       this.isLogin = true; 
                       this.isRegister = false;
+                      this.$router.push({ name: 'createPoll' })
               }).catch(error => {
                   this.registerError = true
               });
@@ -178,15 +182,18 @@ export default {
                     // login user, store the token and redirect to dashboard
                     store.commit('loginUser')
                     localStorage.setItem('token', response.data.access_token)
-                    this.$router.push({ name: 'dashboard' })
+                    this.$router.push({ name: 'mainContent' })
                 }).catch(error => {
                     this.loginError = true
                     this.session_data_error = true
                     console.log("ERROR logging")
-
                 });
             },
-      
+        logout() {
+          localStorage.removeItem('token')
+          store.commit('logoutUser')
+          this.$router.push({ name: 'mainContent' })
+        }
     },
   }
 </script>

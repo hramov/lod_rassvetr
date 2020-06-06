@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.3.45",
+        "tiptap": "^1.27.1",
         "vue-session": "^1.0.0",
         "vuetify": "^2.2.32",
         "vuetify-loader": "^1.4.4"

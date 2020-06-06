@@ -1,36 +1,125 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <a class="btn btn-primary" @click="$router.go(-1)">Back</a>
-                <h1>Polls</h1>
-                <div v-if="!isEdit" class="panel panel-default">
-                    <div class="panel-heading">Poll</div>
-                        <p>ID: {{ id }} </p>
-                        <p>Название: {{ title }}</p>
-                        <p>Контент: {{ content }}</p>
-                        <!-- <div v-for="answer in answers" class="panel-body"> -->
-                            <div v-if="status">
-                                <a class="form-control" @click="yes">За</a>
-                                <a class="form-control" @click="no">Против</a>
-                            </div>
-                            <div v-else>
-                                <p>Вы уже отвечали на этот опрос. Ваш ответ: {{ answer }}</p>
-                            </div>
-                        <!-- </div> -->
-                        <a class="btn btn-primary" @click="editPoll">Edit Poll</a>
-                        <a class="btn btn-primary" @click="deletePoll">Delete Poll</a>
+    <v-container>
+        <v-row>
+            <a class="btn btn-primary" @click="$router.go(-1)">Назад</a>
+            <v-col
+                    lg = "6">
+                <h1 class="display-1">{{ title }}</h1>
+            </v-col>
+        </v-row>
+        <v-row class="d-flex align-center">
+            <v-col lg="10">
+                <v-chip
+                color = '#3399FE'
+                text-color = white>
+                    + 20 баллов
+                </v-chip>
+                <span class="ml-2 text--secondary">за участие в голосовании</span>
+            </v-col>
+            <v-col lg="2" class="justify-end d-flex">
+                <div class="justify-center d-flex block-id-pall subtitle-1 align-center">
+                    ID <span class="id-pall">123</span>
                 </div>
-                <div v-else class="panel panel-default">
-                    <div class="panel-heading">Poll</div>
-                        <input type="text" name="" v-model="new_title" :placeholder="title">
-                        <textarea class="form-control" v-model="new_content" :placeholder="content"></textarea>
-                        <a class="btn btn-primary" @click="savePoll">Save</a>
-                        <a class="btn btn-primary" @click="deletePoll">No</a>
-                </div>
-            </div>
-        </div>
-    </div>
+            </v-col>
+        </v-row>
+        <v-container>
+            <v-row>
+                <v-col lg="12" class="wrap-pall">
+                    <v-row>
+                        <v-col lg="3">
+                            <h2 class="headline">Вопрос 1</h2>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                            <p class="title">
+                                {{ description }}
+                            </p>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                            <strong class="font-weight-black">А вы поддерживаете это предложение?</strong>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                            <v-expansion-panels>
+                                <v-expansion-panel
+                                        v-for="(item , i) in 1"
+                                        :key="i"
+                                >
+                                    <v-expansion-panel-header>Подробнее</v-expansion-panel-header>
+                                    <v-expansion-panel-content>
+                                        {{ content }}
+                                        <!-- Общегородской контакт-центр — это центр, который включает в себя информационно-справочные службы, техническую поддержку, городские сервисы, оказание государственных услуг.
+
+                                        Контакт-центр обрабатывает более 2,7 миллиона обращений от жителей и гостей столицы ежемесячно.
+
+                                        Операторы контакт-центра помогают получить информацию о работе государственных служб и учреждений, записаться на прием к врачу, подать заявку в единый диспетчерский центр и многое другое. Внедрение цифровых технологий помогает улучшить качество обслуживания и увеличить скорость обработки обращений.
+
+                                        В 2014 году в общегородском контакт-центре появился голосовой помощник. Он стал одним из первых примеров использования искусственного интеллекта в городских проектах. А с декабря 2019 года контакт-центр запустил чат-бота. Сейчас он учится отвечать на самые распространенные вопросы москвичей.
+
+                                        О том, как появился общегородской контакт-центр, какие вопросы чаще всего задают операторам, и о многом другом смотрите в видеоролике. -->
+                                    </v-expansion-panel-content>
+
+                                </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                            <h3 class="title">Лидеры мнений</h3>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="6">
+                            <v-avatar
+                                    v-for="(item, i) in 4"
+                                    :key = "i"
+                                    size="84"
+                                    class="mr-3"
+                            >
+                            </v-avatar>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                            <!-- <v-radio-group v-model="column" column>
+                                <hr>
+                                <v-radio class="title mt-2" label="Выбор 1" value="выбор 1" color="#3399FE"></v-radio>
+                                <hr>
+                                <v-radio class="title mt-2" label="Выбор 2" value="выбор 2" color="#3399FE"></v-radio>
+                                <hr>
+                                <v-radio class="title mt-2" label="Выбор 3" value="выбор 3" color="#3399FE">></v-radio>
+                                <hr>
+                                <v-radio class="title mt-2" label="Выбор 4" value="выбор 4" color="#3399FE">></v-radio>
+                                <hr>
+                            </v-radio-group> -->
+                            <hr>
+                            <a @click="yes()" class="form-control" style="text-decoration: none;">Вариант "За"</a>
+                            <hr>
+                            <a @click="no()" href="" class="form-control" style="text-decoration: none;">Вариант "Против"</a>
+                            
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-row>
+            <!-- <v-col class="d-flex justify-center" lg="12">
+                <v-btn style="color: white" text-color = white color="#3399FE">
+                    Завершить
+                </v-btn>
+            </v-col> -->
+        </v-row>
+        <v-row>
+            <v-col>
+                <a class="btn btn-primary" @click="editPoll">Редактировать</a>
+                <a class="btn btn-danger" @click="deletePoll">Удалить</a>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -43,6 +132,7 @@
                 options: [],
                 isEdit: false,
                 new_title: "",
+                description: "",
                 new_content: "",
                 status: true,
                 answer: ""
@@ -58,6 +148,7 @@
                 console.log(response.data.answers[0].user_answer);
                 this.id = response.data.poll.id
                 this.title = response.data.poll.title
+                this.description = response.data.poll.description
                 this.content = response.data.poll.content
                 this.status = response.data.status
                 this.answer = response.data.answers[0].user_answer
@@ -67,6 +158,16 @@
                 else {
                     this.answer = "За"
                 }
+            })
+            .catch(e => console.log(e))
+
+            axios.get('/api/getLeaders/' + this.$route.params.id, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then((response) => {
+                console.log(response)
             })
             .catch(e => console.log(e))
         },
@@ -79,7 +180,7 @@
             })
                 .then(response => {
                     console.log(response)
-                    this.$router.push({ name: 'polls' })
+                    this.$router.push({ name: '/' })
                 }
                     )
                 .catch(e => console.log(e))
@@ -92,7 +193,7 @@
             })
                 .then(response => {
                     console.log(response)
-                    this.$router.push({ name: 'polls' })
+                    this.$router.push({ name: '/' })
                 })
                 .catch(e => console.log(e))
             },
@@ -137,3 +238,14 @@
         }
     }
 </script>
+
+<style scoped> 
+.block-id-pall {
+        width: 55px;
+        height: 44px;
+        border: 1px solid #3399FE;
+    }
+    .wrap-pall {
+        border: 1px solid #3399FE;
+    }
+</style>

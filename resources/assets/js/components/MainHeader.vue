@@ -7,9 +7,9 @@
 
     <v-toolbar flat color="grey lighten-4">
       <v-row justify="center">
-        <v-toolbar-title class="mr-3 pl-2 pr-2 green">ЕРА ГОЛОСУЕТ</v-toolbar-title>
+        <v-toolbar-title class="mr-3 pl-2 pr-2 green"><v-img src="<%= BASE_URL %>logo.png" /></v-toolbar-title>
         <div height="36px">
-          <v-toolbar-items-group >
+          <!-- <v-toolbar-items-group > -->
             <v-btn 
               v-for="(item, index) in items"
               :key="index"
@@ -20,7 +20,7 @@
               >
               <span class="d-none d-md-flex"> {{ item.title }} </span>
             </v-btn>
-          </v-toolbar-items-group>
+          <!-- </v-toolbar-items-group> -->
 
         </div> 
         <v-spacer></v-spacer>
@@ -52,6 +52,7 @@
         { title: 'Голосование', icon:'mdi-vote', href:'#' },
         { title: 'Результаты', icon:'mdi-bookmark-outline', href:'#'},
         { title: 'Магазин поощрений', icon: 'mdi-cart', href:'#' },
+        { title: 'Создать опрос', icon: 'mdi-cart', href:'/#/createPoll' },
       ]
     })
 };

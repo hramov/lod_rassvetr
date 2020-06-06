@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::middleware('auth:api')->group(function () {
+
     Route::get('dashboard', 'AdminController@index');
     Route::get('getLeaders', 'AdminController@getLeaders');
     Route::get('subscribe/{id}', 'AdminController@subscribe');
@@ -31,8 +32,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/deletePoll/{id}', 'PollsController@destroy');
     Route::post('/updatePoll/{id}', 'PollsController@update');
     Route::post('/createPoll', 'PollsController@store');
-    Route::get('/getPolls', 'PollsController@index');
+    // Route::get('/getPolls', 'PollsController@index');
+    // Route::get('/getClosedPolls', 'PollsController@getClosed');
     Route::post('/createPoll', 'PollsController@store');
+    Route::get('/getLeaders', 'PollsController@getLeaders');
+    
 });
 
 Route::group([

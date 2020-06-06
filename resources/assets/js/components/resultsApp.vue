@@ -2,8 +2,7 @@
     <div>
         <v-row justify="center">
             <v-col cols="3"
-            v-for="(result, index) in results"
-                :key="index">
+            v-for="poll in polls">
                 <v-card
                     class="mx-auto"
                     cols='3'
@@ -11,18 +10,18 @@
                     <v-img
                     class="white--text align-end"
                     height="200px"
-                    :src="result.pic"
+                    :src="'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200'"
                     >
-                    <v-card-title>{{result.name}}</v-card-title>
+                    <v-card-title>{{poll.name}}</v-card-title>
                     </v-img>
 
                     <v-card-text class="text--primary">
                         <v-row justify="center">
-                            <v-col cols="5">{{result.date}}</v-col>
+                            <v-col cols="5">{{poll.created_at}}</v-col>
                             <v-spacer></v-spacer>
-                            <v-col cols="3">{{result.city}}</v-col>
+                            <v-col cols="3">{{poll.city}}</v-col>
                         </v-row>
-                    <div>{{result.prew}}</div>
+                    <div>{{poll.description}}</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -49,15 +48,22 @@
 
 <script>
 export default {
-    data: () => ({
-        results :[
-            {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: 'Описание', date: '11.01.1970', city: 'Город'},
-            {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: 'Описание', date: '11.01.1970', city: 'Город'},
-            {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: 'Описание', date: '11.01.1970', city: 'Город'},
-            {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: 'Описание', date: '11.01.1970', city: 'Город'},
-
-
-        ]
-    }),
-};
+    data() {
+        return {
+            polls: []
+        }
+    },
+    mounted() {
+        axios.get('/getClosedPolls/', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            this.polls = response.data.polls
+            console.log(response.data.polls[0])
+        }).catch(error => {
+        })
+    },
+}
 </script>

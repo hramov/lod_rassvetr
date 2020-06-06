@@ -11,7 +11,7 @@ class PollsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        // $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -21,11 +21,17 @@ class PollsController extends Controller
      */
     public function index()
     {
-        $polls = Poll::all();
+        // $polls = DB::table('polls')->order_by('name', 'asc')->get();
+        $polls = DB::table('polls')->orderBy('id', 'desc')->limit(4)->get();
 
         return response()->json(['polls' => $polls]);
     }
 
+    public function getClosed() {
+        $polls = DB::table('polls')->where('isend', 1)->limit(4)->get();
+
+        return response()->json(['polls' => $polls]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -137,5 +143,9 @@ class PollsController extends Controller
             $answer->user_answer = $result;
         }
         $answer->save();
+    }
+
+    public function getLeaders($id) {
+
     }
 }

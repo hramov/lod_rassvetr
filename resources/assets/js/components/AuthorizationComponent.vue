@@ -1,12 +1,19 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on }">
-      <v-btn v-if="!isLogin" dark color="primary" v-on="on">
+      <div v-if="!$store.state.isLoggedIn">
+      <v-btn dark color="primary" v-on="on">
         Войти
       </v-btn>
-      <v-btn v-else dark color="primary" @click="logout">
+    </div>
+    <div v-else>
+      <v-btn @click.prevent="getAccount">
+        Мой кабинет {{ user.weight }}
+      </v-btn>
+      <v-btn @click.prevent="logout">
         Выйти
       </v-btn>
+    </div>
     </template>
     <v-card v-if="isRegister">
       <v-card-title>
@@ -51,7 +58,7 @@
               >
                   <template v-slot:activator="{ on }">
                   <v-text-field
-                      v-model="birthdate"
+                      v-model="birthday"
                       label="Дата рождения"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -60,7 +67,7 @@
                   </template>
                   <v-date-picker
                   ref="picker"
-                  v-model="birthdate"
+                  v-model="birthday"
                   :max="new Date().toISOString().substr(0, 10)"
                   min="1940-01-01"
                   @change="save"
@@ -68,7 +75,7 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-autocomplete prepend-inner-icon='mdi-city'
+              <v-autocomplete v-model="city" prepend-inner-icon='mdi-city'
                 :items="['Горно-Алтайск', 'Чемал', 'Майма', 'Кош-Агач', 'Турочак', 'Онугдай', 'Шебалино', 'Кызыл-Осек', 'Усть-Кокса']"
                 label="Город"
                 single-line
@@ -115,7 +122,7 @@ export default {
       dialog: false,
       isRegister: false,
       isLogin: true,
-      birthdate: null,
+      date: null,
       menu: false,
       user_password2: '',
       compareLock: 'mdi-lock-open',
@@ -126,10 +133,23 @@ export default {
         password: '',
         phone:'',
         city: '',
+        birthday: '',
         registerError: false,
           loginEmail: '',
-          loginPassword: ''
+          loginPassword: '',
+        user: []
       }
+    },
+    mounted() {
+      axios.get('/user', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+        ).then(response => {
+            console.log(response.data)
+            this.user = response.data;
+        });
     },
     watch: {
       menu (val) {
@@ -137,8 +157,14 @@ export default {
       },
     },
     methods: {
-      save (birthdate) {
-        this.$refs.menu.save(birthdate)
+      logout() {
+        this.$router.push('logout')
+      },
+      getAccount () {
+        this.$router.push({name: 'admin', params: { 'id': this.user.id }})
+      },
+      save (birthday) {
+        this.$refs.menu.save(birthday)
       },
       comparePassword() {
         if (this.password == this.user_password2){
@@ -157,7 +183,7 @@ export default {
                   email: this.email,
                   password: this.password,
                   phone:this.phone,
-                  birthdate: this.birthdate,
+                  birthday: this.birthday,
                   city: this.city,
 
               }, {
@@ -174,21 +200,22 @@ export default {
               });
         },
         submitLogin() {
-                this.loginError = false;
-                axios.post('/api/auth/login', {
-                    email: this.loginEmail,
-                    password: this.loginPassword
-                }).then(response => {
-                    // login user, store the token and redirect to dashboard
-                    store.commit('loginUser')
-                    localStorage.setItem('token', response.data.access_token)
-                    this.$router.push({ name: 'mainContent' })
-                }).catch(error => {
-                    this.loginError = true
-                    this.session_data_error = true
-                    console.log("ERROR logging")
-                });
-            },
+            this.loginError = false;
+            axios.post('/api/auth/login', {
+                email: this.loginEmail,
+                password: this.loginPassword
+            }).then(response => {
+                // login user, store the token and redirect to dashboard
+                store.commit('loginUser')
+                localStorage.setItem('token', response.data.access_token)
+                this.$router.push({ name: 'mainContent' }) 
+
+            }).catch(error => {
+                this.loginError = true
+                this.session_data_error = true
+                console.log("ERROR logging")
+            });
+        },
         logout() {
           localStorage.removeItem('token')
           store.commit('logoutUser')

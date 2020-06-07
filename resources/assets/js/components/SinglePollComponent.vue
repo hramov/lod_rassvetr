@@ -52,15 +52,6 @@
                                     <v-expansion-panel-header>Подробнее</v-expansion-panel-header>
                                     <v-expansion-panel-content>
                                         {{ content }}
-                                        <!-- Общегородской контакт-центр — это центр, который включает в себя информационно-справочные службы, техническую поддержку, городские сервисы, оказание государственных услуг.
-
-                                        Контакт-центр обрабатывает более 2,7 миллиона обращений от жителей и гостей столицы ежемесячно.
-
-                                        Операторы контакт-центра помогают получить информацию о работе государственных служб и учреждений, записаться на прием к врачу, подать заявку в единый диспетчерский центр и многое другое. Внедрение цифровых технологий помогает улучшить качество обслуживания и увеличить скорость обработки обращений.
-
-                                        В 2014 году в общегородском контакт-центре появился голосовой помощник. Он стал одним из первых примеров использования искусственного интеллекта в городских проектах. А с декабря 2019 года контакт-центр запустил чат-бота. Сейчас он учится отвечать на самые распространенные вопросы москвичей.
-
-                                        О том, как появился общегородской контакт-центр, какие вопросы чаще всего задают операторам, и о многом другом смотрите в видеоролике. -->
                                     </v-expansion-panel-content>
 
                                 </v-expansion-panel>
@@ -145,44 +136,35 @@
                 }
             })
             .then(response => {
-                console.log(response.data.answers[0].user_answer);
+                console.log(response.data);
                 this.id = response.data.poll.id
                 this.title = response.data.poll.title
                 this.description = response.data.poll.description
                 this.content = response.data.poll.content
                 this.status = response.data.status
                 this.answer = response.data.answers[0].user_answer
+
                 if (this.answer == 0) {
                     this.answer = "Против"
                 }
                 else {
                     this.answer = "За"
                 }
-            })
-            .catch(e => console.log(e))
 
-            axios.get('/api/getLeaders/' + this.$route.params.id, {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            })
-            .then((response) => {
-                console.log(response)
             })
             .catch(e => console.log(e))
         },
         methods: {
             yes() {
                 axios.get('/api/answer/' + this.$route.params.id + '/' + 1, {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            })
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
                 .then(response => {
                     console.log(response)
                     this.$router.push({ name: '/' })
-                }
-                    )
+                })
                 .catch(e => console.log(e))
             },
             no() {

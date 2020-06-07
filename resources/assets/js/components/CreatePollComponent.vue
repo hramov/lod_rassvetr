@@ -33,7 +33,7 @@
         },
         methods: {
             storePoll() {
-                axios.post('/createPoll', {
+                axios.post('/api/createPoll', {
                     title: this.title,
                     description: this.description,
                     content: this.content

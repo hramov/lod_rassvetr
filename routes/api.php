@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 // });
 
 Route::middleware('auth:api')->group(function () {
-
+    
     Route::get('dashboard', 'AdminController@index');
     Route::get('getLeaders', 'AdminController@getLeaders');
     Route::get('subscribe/{id}', 'AdminController@subscribe');
@@ -28,14 +28,18 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/getSubs/{id}', 'AdminController@getSubs');
     Route::get('/unsubscribe/{id}', 'AdminController@unsubscribe');
     Route::get('answer/{id}/{result}', 'PollsController@getAnswer');
+
     Route::get('/singlePoll/{id}', 'PollsController@show');
     Route::get('/deletePoll/{id}', 'PollsController@destroy');
     Route::post('/updatePoll/{id}', 'PollsController@update');
     Route::post('/createPoll', 'PollsController@store');
-    // Route::get('/getPolls', 'PollsController@index');
+    
+    Route::get('/getPolls', 'PollsController@index');
     // Route::get('/getClosedPolls', 'PollsController@getClosed');
     Route::post('/createPoll', 'PollsController@store');
     Route::get('/getLeaders', 'PollsController@getLeaders');
+    // Route::get('/getPollsEnded', 'PollsController@getPollsEnded');
+    // Route::get('me', 'AuthController@me');
     
 });
 

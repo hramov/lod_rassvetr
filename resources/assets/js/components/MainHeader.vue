@@ -7,7 +7,7 @@
 
     <v-toolbar flat color="grey lighten-4">
       <v-row justify="center">
-        <v-toolbar-title class="mr-3 pl-2 pr-2 green"><v-img src="<%= BASE_URL %>logo.png" /></v-toolbar-title>
+        <v-toolbar-title class="mr-3 pl-2 pr-2 green">STFU</v-toolbar-title>
         <div height="36px">
           <!-- <v-toolbar-items-group > -->
             <v-btn 
@@ -29,7 +29,7 @@
           <AuthorizationComponent />
         </v-card>
 
-        
+        <!-- <v-card>{{ user.name }}</v-card> -->
       </v-row>
       
     </v-toolbar>
@@ -41,6 +41,7 @@
 <script>
   import AuthorizationComponent from './AuthorizationComponent'
   export default {
+    
     name: 'App',
 
     components: {
@@ -49,9 +50,9 @@
 
     data: () => ({
         items: [
-        { title: 'Голосование', icon:'mdi-vote', href:'#' },
-        { title: 'Результаты', icon:'mdi-bookmark-outline', href:'#'},
-        { title: 'Магазин поощрений', icon: 'mdi-cart', href:'#' },
+        { title: 'Голосования', icon:'mdi-vote', href:'/#/allPolls' },
+        { title: 'Результаты', icon:'mdi-bookmark-outline', href:'/#/allResults'},
+        // { title: 'Магазин поощрений', icon: 'mdi-cart', href:'#' },
         { title: 'Создать опрос', icon: 'mdi-cart', href:'/#/createPoll' },
       ]
     })

@@ -35,12 +35,13 @@ class AdminController extends Controller
         // else if ($user_status == 3) {
         //     $status = "global_leader";   
         // }
-        $users = User::where('id', '<>', Auth::user()->id)->orderBy('subs', 'desc')->get();
+        $users = User::where('id', '<>', Auth::user()->id)->orderBy('weight', 'desc')->get();
         return response()->json(['data' => $users, 'status' => $status]);
     }
 
     public function subscribe($id) {
         if ($id != Auth::user()->id) {
+
             $user = User::find(Auth::user()->id);
             $leader = User::find($id);
 
@@ -48,7 +49,7 @@ class AdminController extends Controller
                 if ($leader->weight == null) {
                     $leader->weight = 0;
                 }
-                $leader->weight += ($user->weight);
+                $leader->weight += 1;
                 $leader->status = 2;
                 User::where('id', $id)->update(['weight' => $leader->weight, 'status' => $leader->status]);
 
@@ -73,6 +74,7 @@ class AdminController extends Controller
             $users_rel->pleb_id = $user->id;
             $users_rel->save();
             //
+            return response()->json(['status' => $user->status]);
         }
 
     }
@@ -88,6 +90,11 @@ class AdminController extends Controller
         return response()->json(['user' => $user]);
     }
 
+    public function getMyLeaders() {
+        $leader = Users_rel::where('pleb_id', Auth::user()->id)->get();
+        return response()->json(['leader' => $leader]);
+    }
+
     public function getSubs($id) {
         $users_id = Users_rel::where('leader_id', $id)->get();
 
@@ -100,6 +107,7 @@ class AdminController extends Controller
             if($users_id[$i]->pleb_id == Auth::user()->id) {
                 $status = 'subscriber';
             }
+
             array_push($subs_array, $subs);
         }   
         return response()->json(['subs_array' => $subs_array, 'status' => $status]);

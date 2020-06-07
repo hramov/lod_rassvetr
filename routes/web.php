@@ -24,10 +24,20 @@ Route::get('/', function () {
 // Route::post('/updatePoll/{id}', 'PollsController@update');
 // Route::get('/getOptions/{id}', 'PollsController@getOptions');
 
-// Route::get('/getLeaders', 'UserController@index');
+Route::get('/getMyLeaders', 'AdminController@getMyLeaders');
 // Route::get('/subscribe/{id}', 'UserController@subscribe');
 
 // Route::get('/answer/{id}/{result}', 'PollsController@getAnswer');
 
 Route::get('/getPolls', 'PollsController@index');
 Route::get('/getClosedPolls', 'PollsController@getClosed');
+
+Route::get('/getPollsEnded', 'PollsController@getPollsEnded');
+
+Route::get('/getPollsAll', 'PollsController@getPollsAll');
+
+Route::get('/show_leaders', 'AdminController@getLeaders');
+Route::get('/subscribe/{id}', 'AdminController@subscribe');
+
+Route::get('/user', 'AuthController@me');
+// Route::post('me', 'AuthController@me');

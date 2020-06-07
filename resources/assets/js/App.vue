@@ -12,18 +12,19 @@ import MainLayout from './views/MainLayout.vue'
         created() {
 
             if(localStorage.token) {
-                axios.get('/api/user', {
+                axios.get('/user', {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem('token')
                     }
-                },
-                ).then(response => {
+                })
+                .then(response => {
+                    console.log(response)
                     store.commit('loginUser')
                 }).catch(error => {
                     if (error.response.status === 401 || error.response.status === 403) {
                         store.commit('logoutUser')
                         localStorage.setItem('token', '')
-                        this.$router.push({name: 'login'})
+                        this.$router.push({name: 'mainContent'})
                     }
 
                 });

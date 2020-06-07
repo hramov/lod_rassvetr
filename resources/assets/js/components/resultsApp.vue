@@ -40,7 +40,7 @@
             justify="center"
             > 
                 <v-col cols="4">
-                    <v-btn href="#" class="d-block pa-2 white--text" color="#3399fe">Больше результатов</v-btn>
+                    <v-btn href="/#/allResults" class="d-block pa-2 white--text" color="#3399fe">Больше результатов</v-btn>
                 </v-col>
             </v-row>
     </div>
@@ -54,14 +54,14 @@ export default {
         }
     },
     mounted() {
-        axios.get('/getClosedPolls/', {
+        axios.get('/getPollsEnded', {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
         })
         .then(response => {
-            this.polls = response.data.polls
-            console.log(response.data.polls[0])
+            this.polls = response.data
+            // console.log(response.data)
         }).catch(error => {
         })
     },

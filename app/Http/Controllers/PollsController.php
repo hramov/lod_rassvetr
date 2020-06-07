@@ -57,6 +57,9 @@ class PollsController extends Controller
         $poll->content = $request->content;
         $poll->yes = 0;
         $poll->no = 0;
+        $poll->isend = 0;
+        $poll->city = "12";
+        $poll->end_at = date("F j, Y, g:i a");
 
         $poll->save();
     }
@@ -147,5 +150,15 @@ class PollsController extends Controller
 
     public function getLeaders($id) {
 
+    }
+
+    public function getPollsEnded() {
+        $polls = Poll::where('isend', 1)->orderBy('id', 'desc')->limit(4)->get();
+        return response()->json($polls);
+    }
+
+    public function getPollsAll() {
+        $polls = Poll::where('isend', 0)->orderBy('id', 'desc')->get();
+        return response()->json($polls);
     }
 }

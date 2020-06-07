@@ -8,7 +8,7 @@
         mounted () {
             localStorage.removeItem('token')
             store.commit('logoutUser')
-            this.$router.push({ name: 'login' })
+            this.$router.push({ name: 'mainContent' })
         }
     }
 </script>

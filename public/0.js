@@ -100,13 +100,12 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/getClosedPolls/', {
+    axios.get('/getPollsEnded', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     }).then(function (response) {
-      _this.polls = response.data.polls;
-      console.log(response.data.polls[0]);
+      _this.polls = response.data; // console.log(response.data)
     })["catch"](function (error) {});
   }
 });
@@ -207,36 +206,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      polls: []
+      polls: [],
+      user: []
     };
   },
-  // data: () => ({
-  //     votes :[
-  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
-  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
-  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
-  //         {name: 'Название голосование', pic: 'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200', prew: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  //                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  //                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  //                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  //                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  //                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`, rate: '20'},
-  //     ]
-  // }),
   mounted: function mounted() {
     var _this = this;
 
@@ -394,7 +367,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "d-block pa-2 white--text",
-                  attrs: { href: "#", color: "#3399fe" }
+                  attrs: { href: "/#/allResults", color: "#3399fe" }
                 },
                 [_vm._v("Больше результатов")]
               )
@@ -473,7 +446,7 @@ var render = function() {
       _c(
         "v-row",
         { attrs: { justify: "center" } },
-        _vm._l(_vm.polls, function(poll) {
+        _vm._l(_vm.polls, function(poll, index) {
           return _c(
             "v-col",
             { attrs: { cols: "3" } },
@@ -533,7 +506,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "d-block pa-2 white--text",
-                  attrs: { href: "#", color: "#3399fe" }
+                  attrs: { href: "/#/allPolls", color: "#3399fe" }
                 },
                 [_vm._v("Больше голосований")]
               )

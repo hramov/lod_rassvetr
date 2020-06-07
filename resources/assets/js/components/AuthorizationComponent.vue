@@ -8,7 +8,7 @@
     </div>
     <div v-else>
       <v-btn @click.prevent="getAccount">
-        Мой кабинет {{ user.weight }}
+        Мой кабинет
       </v-btn>
       <v-btn @click.prevent="logout">
         Выйти
@@ -24,7 +24,7 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field label="Имя*" prepend-inner-icon='mdi-account' required v-model="name"></v-text-field>
+              <v-text-field label="Имя*" prepend-inner-icon='mdi-account' :rules="nameRules" required v-model="name"></v-text-field>
 
             </v-col>
             <v-col cols="12" sm="6" md="6">         
@@ -33,10 +33,11 @@
                 prepend-inner-icon='mdi-account-outline'
                 required
                 v-model="surname"
+                :rules="nameRules"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Email*"  prepend-inner-icon="mdi-email" required v-model="email"></v-text-field>
+              <v-text-field label="Email*"  prepend-inner-icon="mdi-email" :rules="emailRules" required v-model="email"></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field label="Пароль*" :prepend-inner-icon='compareLock' type="password" required v-model="password" @blur="comparePassword" :style="equalColor"></v-text-field>
@@ -88,7 +89,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="isLogin = true; isRegister = false">Войти</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false; submitRegister()" >Зарегистрироваться</v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false; submitRegister()" :disabled="valid">Зарегистрироваться</v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="isLogin">
@@ -98,7 +99,7 @@
       </v-card-title>
       <v-card-text>
           <v-col cols="12">
-              <v-text-field label="Email" prepend-inner-icon='mdi-email' required v-model="loginEmail"></v-text-field>
+              <v-text-field label="Email" prepend-inner-icon='mdi-email' required v-model="loginEmail" :rules="emailRules"></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field label="Пароль" prepend-inner-icon='mdi-lock' type="password" required v-model="loginPassword"></v-text-field>
@@ -108,7 +109,7 @@
           
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="isRegister = true; isLogin = false">Зарегистрироваться</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false; submitLogin()">Войти</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false; submitLogin()" :disabled="valid">Войти</v-btn>
       </v-card-actions>
       </v-card>
   </v-dialog>
@@ -119,6 +120,14 @@ import store from '../store'
 export default {
     data() {
       return{
+        valid: true,
+      nameRules: [
+        v => !!v || 'Отсутствует Имя/Фамилия'
+      ],
+      emailRules: [
+        v => !!v || 'Отсутствует E-mail',
+        v => /.+@.+..+/.test(v) || 'Неверный адрес'
+      ],
       dialog: false,
       isRegister: false,
       isLogin: true,

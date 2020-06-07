@@ -54,12 +54,26 @@ export default {
         return {
             isLoggedIn: "",
             users: [],
-            statusControl: false
+            statusControl: false,
+            userStatus: "",
+            page: 0
         }
     },
     created() {
         this.isLoggedIn = this.$store.state.isLoggedIn;
         console.log(this.isLoggedIn);
+
+        axios.get('/user', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            if (response.data.status == 0) {
+                this.statusControl = true
+            }
+        })
+        .catch(err => console.log(err))
 
         axios.get('/show_leaders', {
             headers: {
@@ -82,6 +96,16 @@ export default {
             .then(response => {
                 if (response.data.status == 0) {
                     this.statusControl = true
+                    axios.get('/show_leaders', {
+                        headers: {
+                            Authorization: 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
+                    .then(response => {
+                        console.log(response)
+                        // this.users = response.data.data.data
+                    })
+                    .catch(err => console.log(err))
                 }
             })
             .catch(e => console.log(e))

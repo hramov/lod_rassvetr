@@ -1,36 +1,87 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[8],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store */ "./resources/assets/js/store.js");
 //
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    localStorage.removeItem('token');
-    _store__WEBPACK_IMPORTED_MODULE_0__["default"].commit('logoutUser');
-    this.$router.push({
-      name: 'mainContent'
-    });
-  }
+  data: function data() {
+    return {
+      title: "",
+      description: "",
+      content: ""
+    };
+  },
+  methods: {
+    storePoll: function storePoll() {
+      axios.post('/api/createPoll', {
+        title: this.title,
+        description: this.description,
+        content: this.content
+      }, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(function (response) {
+        return console.log(response);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+      this.$router.push({
+        name: 'mainContent'
+      });
+      console.log("Store");
+    }
+  } // mounted() {
+  //     axios.get('', {
+  //         headers: {
+  //             Authorization: 'Bearer ' + localStorage.getItem('token')
+  //         }
+  //     })
+  //     .then(response => {
+  //         this.data = response
+  //         console.log(response)
+  //     }).catch(error => {
+  //     })
+  // }
+
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -42,7 +93,105 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-btn", [_vm._v(" fdsgsdfg")])
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+        _c("h1", [_vm._v("Создать опрос")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.storePoll($event)
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.title,
+                      expression: "title"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "margin-bottom": "15px" },
+                  attrs: { type: "text", placeholder: "Заголовок" },
+                  domProps: { value: _vm.title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.title = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.description,
+                      expression: "description"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "margin-bottom": "15px" },
+                  attrs: { type: "text", placeholder: "Описание" },
+                  domProps: { value: _vm.description },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.description = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.content,
+                      expression: "content"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "margin-bottom": "15px" },
+                  attrs: { placeholder: "Основной контент" },
+                  domProps: { value: _vm.content },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.content = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [_vm._v("Записать")]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -51,21 +200,18 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/LogoutComponent.vue":
-/*!************************************************************!*\
-  !*** ./resources/assets/js/components/LogoutComponent.vue ***!
-  \************************************************************/
+/***/ "./resources/assets/js/components/CreatePollComponent.vue":
+/*!****************************************************************!*\
+  !*** ./resources/assets/js/components/CreatePollComponent.vue ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LogoutComponent.vue?vue&type=template&id=031f4c2c& */ "./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c&");
-/* harmony import */ var _LogoutComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LogoutComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatePollComponent.vue?vue&type=template&id=7928540a& */ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a&");
+/* harmony import */ var _CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreatePollComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
 
 
 
@@ -74,9 +220,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _LogoutComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -84,46 +230,40 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   
 )
 
-/* vuetify-loader */
-
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"]})
-
-
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/assets/js/components/LogoutComponent.vue"
+component.options.__file = "resources/assets/js/components/CreatePollComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
+/***/ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LogoutComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./LogoutComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/LogoutComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LogoutComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreatePollComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CreatePollComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePollComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c& ***!
-  \*******************************************************************************************/
+/***/ "./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a& ***!
+  \***********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./LogoutComponent.vue?vue&type=template&id=031f4c2c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/LogoutComponent.vue?vue&type=template&id=031f4c2c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreatePollComponent.vue?vue&type=template&id=7928540a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CreatePollComponent.vue?vue&type=template&id=7928540a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LogoutComponent_vue_vue_type_template_id_031f4c2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePollComponent_vue_vue_type_template_id_7928540a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -14,12 +14,12 @@
             </v-card-text>
         </div>
 
-        <div v-if="leader.length > 0">
-            <h3>Ваш лидер - {{user.leader}}</h3>
+        <div v-if="user.status == 0">
+            <h3>Ваш лидер - <a href="">{{ leader.name }}</a></h3>
             <p>Вы можете в любой момент отписаться от лидера. Пока вы подписаны на лидера, вы не можете участвовать в голосованиях, и вашим голосом распоряжается лидер.</p>
             <v-form>
                 <input type="hidden" value="0" name="leader"/>
-                <v-btn color="primary">Желаете отписаться от данного лидера?</v-btn>
+                <v-btn @click="unsubscribe" color="primary">Желаете отписаться от данного лидера?</v-btn>
             </v-form>
         </div>
 
@@ -27,7 +27,7 @@
             <h3>Вы не выбрали лидера</h3>
             <p>Вы можете в любой момент отписаться от лидера. Пока вы подписаны на лидера, вы не можете участвовать в голосованиях, и вашим голосом распоряжается лидер.</p>
             <v-form>
-                <v-btn color="primary" @click="showLeaders">Желаете подписаться на лидера?</v-btn>
+                <v-btn color="primary" @click="subscribe">Желаете подписаться на лидера?</v-btn>
             </v-form>
         </div>
 
@@ -143,15 +143,38 @@ export default {
             }
         })
         .then(response => {
-            // console.log(response.data.leader)
-            this.leader = response.data.leader
+            console.log(response.data.leader[0])
+            this.leader = response.data.leader[0]
         })
         .catch(e => console.log(e))
     },
     methods: {
-        showLeaders() {
-            this.$router.push({ name: 'showLeaders' })
-        }
+        subscribe() {
+            this.$router.push({name: 'showLeaders'})
+        },
+        unsubscribe() {
+            axios.get('/unsubscribe/' + this.leader.id, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                console.log(response);
+                axios.get('/getMyLeaders', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                .then(response => {
+                    console.log(response.data.leader[0])
+                    this.leader = response.data.leader[0]
+                })
+                .catch(e => {
+                    console.log(e)
+                    this.user.status = 1
+                })
+        })
     }
+}
 }
 </script>

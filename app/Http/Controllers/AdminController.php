@@ -91,8 +91,13 @@ class AdminController extends Controller
     }
 
     public function getMyLeaders() {
-        $leader = Users_rel::where('pleb_id', Auth::user()->id)->get();
-        return response()->json(['leader' => $leader]);
+        try {
+            $leader_id = Users_rel::where('pleb_id', Auth::user()->id)->get()->first()->leader_id;
+            $leader = User::where('id', $leader_id)->get();
+            return response()->json(['leader' => $leader]);
+        } catch(Exception $e) {
+            // return $e->getMessage();
+        }
     }
 
     public function getSubs($id) {
@@ -117,31 +122,37 @@ class AdminController extends Controller
         if ($id != Auth::user()->id) {
             DB::table('users_rels')->where('pleb_id', Auth::user()->id)->delete();
 
-            $user = User::where('id', Auth::user()->id)->get();
-            $leader = User::where('id', $id)->get();
+            $user = User::where('id', Auth::user()->id)->get()->first();
+            $leader = User::where('id', $id)->get()->first();
 
-            if($user->status == 0) {
-                $user->status = 1;
-                $user->weight = 1;
-                $user->isSub = 0;
+            $user->weight = 1;
+            $user->status = 1;
 
-                if ($leader->weight == null) {
-                    $leader->weight = 0;
-                }
-                $leader->weight -= 1;
-                if ($leader->weight == 1) {
-                    $leader->status = 1;
-                }
-            }
-            else if ($user->status == 2) {
-                if ($user->weight == null) {
-                    $user->weight = 0;
-                }
-                $user->weight += 1;
-                $leader->weight -= $user->weight;
-            }
+            $leader->weight -= 1;
+            
+            // if($user->status == 0) {
+            //     $user->status = 1;
+            //     $user->weight = 1;
 
-            $user->isSub = 0;
+            //     if ($leader->weight == null) {
+            //         $leader->weight = 0;
+            //     }
+
+            //     $leader->weight -= 1;
+
+            //     if ($leader->weight < 2) {
+            //         $leader->status = 1;
+            //     }
+            // }
+            // else if ($user->status == 2) {
+            //     if ($user->weight == null) {
+            //         $user->weight = 0;
+            //     }
+            //     $user->weight += 1;
+            //     $leader->weight -= $user->weight;
+            // }
+
+            // $user->isSub = 0;
             
             $subs_rows = count(Users_rel::where('leader_id', $id)->get());
             if ($subs_rows == 0) {

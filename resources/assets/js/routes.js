@@ -64,6 +64,12 @@ const router = new Router({
       name: 'showLeaders',
       component: () => import('./components/ShowLeadersComponent.vue'),
       // meta: { requiresAuth: true}
+    },
+    {
+      path: '/leadersTable',
+      name: 'leadersTable',
+      component: () => import('./components/LeadersTable.vue'),
+      // meta: { requiresAuth: true}
     }
   ]
 });

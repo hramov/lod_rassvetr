@@ -6,7 +6,7 @@
 
 <script> 
 import MainLayout from './views/MainLayout.vue'
-
+import store from './store.js'
 
     export default {
         created() {
@@ -21,11 +21,11 @@ import MainLayout from './views/MainLayout.vue'
                     console.log(response)
                     store.commit('loginUser')
                 }).catch(error => {
-                    if (error.response.status === 401 || error.response.status === 403) {
+                    // if (error.response.status === 401 || error.response.status === 403) {
                         store.commit('logoutUser')
                         localStorage.setItem('token', '')
                         this.$router.push({name: 'mainContent'})
-                    }
+                    // }
 
                 });
             }

@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <a class="btn btn-primary" @click="$router.go(-1)">Назад</a>
+            <v-btn color="primary" class="mt-2" @click="$router.go(-1)">Назад </v-btn>
             <v-col
                     lg = "6">
                 <h1 class="display-1">{{ title }}</h1>
@@ -18,7 +18,7 @@
             </v-col>
             <v-col lg="2" class="justify-end d-flex">
                 <div class="justify-center d-flex block-id-pall subtitle-1 align-center">
-                    ID <span class="id-pall">123</span>
+                    ID <span class="id-pall"> {{ id }}</span>
                 </div>
             </v-col>
         </v-row>
@@ -61,6 +61,9 @@
                     <v-row>
                         <v-col lg="12">
                             <h3 class="title">Лидеры мнений</h3>
+                            <div v-for="leader, index in leaders">
+                                <p>{{ leader.name }} {{ leader.weight }}</p>
+                            </div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -76,19 +79,8 @@
                     </v-row>
                     <v-row>
                         <v-col lg="12">
-                            <!-- <v-radio-group v-model="column" column>
-                                <hr>
-                                <v-radio class="title mt-2" label="Выбор 1" value="выбор 1" color="#3399FE"></v-radio>
-                                <hr>
-                                <v-radio class="title mt-2" label="Выбор 2" value="выбор 2" color="#3399FE"></v-radio>
-                                <hr>
-                                <v-radio class="title mt-2" label="Выбор 3" value="выбор 3" color="#3399FE">></v-radio>
-                                <hr>
-                                <v-radio class="title mt-2" label="Выбор 4" value="выбор 4" color="#3399FE">></v-radio>
-                                <hr>
-                            </v-radio-group> -->
                             <hr>
-                            <a @click="yes()" class="form-control" style="text-decoration: none;">Вариант "За"</a>
+                            <a @click="yes()" href="" class="form-control" style="text-decoration: none;">Вариант "За"</a>
                             <hr>
                             <a @click="no()" href="" class="form-control" style="text-decoration: none;">Вариант "Против"</a>
                             
@@ -98,11 +90,6 @@
             </v-row>
         </v-container>
         <v-row>
-            <!-- <v-col class="d-flex justify-center" lg="12">
-                <v-btn style="color: white" text-color = white color="#3399FE">
-                    Завершить
-                </v-btn>
-            </v-col> -->
         </v-row>
         <v-row>
             <v-col>
@@ -126,7 +113,8 @@
                 description: "",
                 new_content: "",
                 status: true,
-                answer: ""
+                answer: "",
+                leaders: []
             }
         },
         mounted() {
@@ -151,6 +139,17 @@
                     this.answer = "За"
                 }
 
+            })
+            .catch(e => console.log(e))
+
+            axios.get('/show_leaders', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                console.log(response.data.data)
+                this.leaders = response.data.data.splice(1,5)
             })
             .catch(e => console.log(e))
         },

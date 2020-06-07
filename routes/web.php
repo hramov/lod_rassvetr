@@ -39,5 +39,6 @@ Route::get('/getPollsAll', 'PollsController@getPollsAll');
 Route::get('/show_leaders', 'AdminController@getLeaders');
 Route::get('/subscribe/{id}', 'AdminController@subscribe');
 
+Route::get('/unsubscribe/{id}', 'AdminController@unsubscribe');
 Route::get('/user', 'AuthController@me');
 // Route::post('me', 'AuthController@me');

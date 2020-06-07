@@ -54,6 +54,7 @@
         { title: 'Результаты', icon:'mdi-bookmark-outline', href:'/#/allResults'},
         // { title: 'Магазин поощрений', icon: 'mdi-cart', href:'#' },
         { title: 'Создать опрос', icon: 'mdi-cart', href:'/#/createPoll' },
+        { title: 'Таблица лидеров', icon: 'mdi-cart', href:'/#/leaderTable' },
       ]
     })
 };

@@ -60,7 +60,7 @@ class PollsController extends Controller
         $poll->isend = 0;
         $poll->city = "12";
         $poll->end_at = date("F j, Y, g:i a");
-
+        $poll->creator_id = Auth::user()->id;
         $poll->save();
     }
 
@@ -159,6 +159,9 @@ class PollsController extends Controller
 
     public function getPollsAll() {
         $polls = Poll::where('isend', 0)->orderBy('id', 'desc')->get();
+        $user = Auth::user()->id;
+
         return response()->json($polls);
+
     }
 }

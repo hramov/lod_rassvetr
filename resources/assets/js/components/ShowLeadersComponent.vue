@@ -96,14 +96,15 @@ export default {
             .then(response => {
                 if (response.data.status == 0) {
                     this.statusControl = true
+
                     axios.get('/show_leaders', {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token')
                         }
                     })
                     .then(response => {
-                        console.log(response)
-                        // this.users = response.data.data.data
+                        // console.log(response.data)
+                        this.users = response.data.data
                     })
                     .catch(err => console.log(err))
                 }

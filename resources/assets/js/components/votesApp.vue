@@ -28,7 +28,7 @@
                     >
                         Голосовать
                     </v-btn> -->
-                    <a :href="'/#/singlePoll/' + poll.id">Голосовать</a> 
+                    <a :href="'/#/singlePoll/' + poll.id">Открыть</a> 
                     </v-card-actions>
                 </v-card>
             </v-col>

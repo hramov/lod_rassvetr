@@ -27,6 +27,24 @@ class PollsController extends Controller
         return response()->json(['polls' => $polls]);
     }
 
+    public function getMyPolls() {
+        $user_id = Auth::user()->id;
+        $polls = Poll::where('creator_id', $user_id)->get();
+        return response()->json($polls);
+    }
+
+    public function getMyAnswers() {
+        $user_id = Auth::user()->id;
+        $answers = Answer::where('username', $user_id)->get();
+        $polls = [];
+
+        foreach($answers as $answer) {
+            array_push($polls, Poll::where('id', $answer->id_poll)->get());
+        }
+
+        return response()->json($polls);
+    }
+
     public function getClosed() {
         $polls = DB::table('polls')->where('isend', 1)->limit(4)->get();
 
@@ -74,7 +92,7 @@ class PollsController extends Controller
     {
         $poll = Poll::where('id', $id)->get()->first();
         $answers = Answer::where('id_poll', $id)->get();
-        // var_dump($answers);
+        
         $status = true;
 
         foreach ($answers as $answer) {
@@ -128,8 +146,9 @@ class PollsController extends Controller
         $answer = new Answer();
 
         $answer->username = Auth::user()->id;
+
         $answer->id_poll = $id;
-        var_dump(Auth::user()->id);
+
         if($result == 1) {
             $yes_res = Poll::where('id', $id)->get()->first();;
             $yes_res = $yes_res->yes;
@@ -148,10 +167,6 @@ class PollsController extends Controller
         $answer->save();
     }
 
-    public function getLeaders($id) {
-
-    }
-
     public function getPollsEnded() {
         $polls = Poll::where('isend', 1)->orderBy('id', 'desc')->limit(4)->get();
         return response()->json($polls);
@@ -159,8 +174,6 @@ class PollsController extends Controller
 
     public function getPollsAll() {
         $polls = Poll::where('isend', 0)->orderBy('id', 'desc')->get();
-        $user = Auth::user()->id;
-
         return response()->json($polls);
 
     }

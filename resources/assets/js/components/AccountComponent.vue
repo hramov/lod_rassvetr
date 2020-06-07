@@ -1,5 +1,6 @@
 <template>
     <v-card class="pa-4">
+        <v-btn absolute right fab @click="settingsProfile = !settingsProfile;"><v-icon>mdi-tools</v-icon></v-btn>
         <div >
             <div class="float-left">
                 <v-avatar color="primary lighten-2">
@@ -30,7 +31,7 @@
                 <v-btn color="primary" @click="subscribe">Желаете подписаться на лидера?</v-btn>
             </v-form>
         </div>
-
+        <hr>
         <div>
             <h3>Контактная информация</h3>
             <v-row no-gutters>
@@ -72,9 +73,10 @@
                 </v-col>
             </v-row>
         </div>
-
-        <div>
-            <h3>Подробная информация</h3>
+        
+        <div v-if="settingsProfile">
+        <hr>
+            <h3>Редактировать информацию</h3>
             <v-form>
                 <v-row no-gutters>
                     <v-col cols="12" xs="6" md="4" class="pa-2">
@@ -108,9 +110,83 @@
                 <v-btn color="primary" type="submit">Отправить</v-btn>
             </v-form>
         </div>
+        <hr>
+        <h3>Мои опросы</h3>
+        <!-- <resultApp/> -->
+        <v-row justify="center">
+            <v-col cols="3"
+            v-for="poll in polls">
+                <v-card
+                    class="mx-auto"
+                    cols='3'
+                >
+                    <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200'"
+                    >
+                    <v-card-title>{{poll.title}}</v-card-title>
+                    </v-img>
 
-        <h3>Результаты Ваших последних голосований</h3>
-        <resultApp/>
+                    <v-card-text class="text--primary">
+                        <v-row justify="center">
+                            <v-col cols="5">{{poll.created_at}}</v-col>
+                            <v-spacer></v-spacer>
+                            <v-col cols="3">{{poll.city}}</v-col>
+                        </v-row>
+                    <div>{{poll.description}}</div>
+                    </v-card-text>
+
+                    <v-card-actions>
+                    <a :href="'/#/singlePoll/' + poll.id"
+                        color="orange"
+                        text
+                    >
+                        Подробнее
+                    </a>
+
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+        <hr>
+        <h3>Мои голосования</h3>
+        <v-row justify="center">
+            <v-col cols="3"
+            v-for="answer in answers">
+                <v-card
+                    class="mx-auto"
+                    cols='3'
+                >
+                    <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="'https://avatars.mds.yandex.net/get-zen_doc/1657335/pub_5d33cf0414f98000adeae2dd_5d33d0cbc31e4900ad7fdddc/scale_1200'"
+                    >
+                    <v-card-title>{{answer.title}}</v-card-title>
+                    </v-img>
+
+                    <v-card-text class="text--primary">
+                        <v-row justify="center">
+                            <v-col cols="5">{{answer.created_at}}</v-col>
+                            <v-spacer></v-spacer>
+                            <v-col cols="3">{{answer.city}}</v-col>
+                        </v-row>
+                    <div>{{answer.description}}</div>
+                    </v-card-text>
+
+                    <v-card-actions>
+                    <a :href="'/#/singlePoll/' + answer.id"
+                        color="orange"
+                        text
+                    >
+                        Подробнее
+                    </a>
+
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-card>
 </template>
 
@@ -120,7 +196,10 @@ export default {
     data() {
         return {
             user: [],
-            leader: []
+            leader: [],
+            polls: [],
+            answers: [],
+            settingsProfile: false
         }
     },
     components : {
@@ -133,7 +212,7 @@ export default {
             }
         })
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             this.user = response.data;
         });
 
@@ -143,10 +222,31 @@ export default {
             }
         })
         .then(response => {
-            console.log(response.data.leader[0])
+            // console.log(response.data.leader[0])
             this.leader = response.data.leader[0]
         })
         .catch(e => console.log(e))
+
+        axios.get('/getMyPolls', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            // console.log(response.data)
+            this.polls = response.data;
+        });
+
+        axios.get('/getMyAnswers', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            console.log(response.data[0][0].title)
+            this.answers = response.data[0]
+        });
+
     },
     methods: {
         subscribe() {
@@ -166,7 +266,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    console.log(response.data.leader[0])
+                    // console.log(response.data.leader[0])
                     this.leader = response.data.leader[0]
                 })
                 .catch(e => {
@@ -178,3 +278,9 @@ export default {
 }
 }
 </script>
+
+<style>
+*{
+    outline:none !important;
+}
+</style>

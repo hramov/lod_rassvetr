@@ -89,7 +89,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="isLogin = true; isRegister = false">Войти</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false; submitRegister()" :disabled="valid">Зарегистрироваться</v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false; submitRegister()" :disabled="!valid">Зарегистрироваться</v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="isLogin">
@@ -109,7 +109,7 @@
           
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="isRegister = true; isLogin = false">Зарегистрироваться</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false; submitLogin()" :disabled="valid">Войти</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false; submitLogin()" :disabled="!valid">Войти</v-btn>
       </v-card-actions>
       </v-card>
   </v-dialog>
@@ -235,5 +235,7 @@ export default {
 </script>
 
 <style>
-    
+    * {
+      text-decoration: none !important;
+    }
 </style>

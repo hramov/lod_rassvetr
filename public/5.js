@@ -112,7 +112,8 @@ __webpack_require__.r(__webpack_exports__);
               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           }).then(function (response) {
-            console.log(response); // this.users = response.data.data.data
+            // console.log(response.data)
+            _this2.users = response.data.data;
           })["catch"](function (err) {
             return console.log(err);
           });
@@ -275,25 +276,6 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/components/VImg/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/vuetify/lib/components/VImg/index.js ***!
-  \***********************************************************/
-/*! exports provided: VImg, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _VImg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "VImg", function() { return _VImg__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (_VImg__WEBPACK_IMPORTED_MODULE_0__["default"]);
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 

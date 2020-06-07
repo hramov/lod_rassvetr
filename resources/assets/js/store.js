@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -23,9 +24,14 @@ export default new Vuex.Store({
         GET_LEADERS_FROM_TABLE({
             commit
         }) {
-            return axios.get('/show_leaders')
-                    .then((leadersTable) => {
+            return axios.get('/show_leaders',{
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then((leadersTable) => {
                         commit('SET_LEADERS_TO_TABLE', leadersTable.data);
+                        console.log(leadersTable.data)
                         return leadersTable;
                     })
                     .catch((error) => {

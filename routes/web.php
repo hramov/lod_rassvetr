@@ -35,7 +35,8 @@ Route::get('/getClosedPolls', 'PollsController@getClosed');
 Route::get('/getPollsEnded', 'PollsController@getPollsEnded');
 
 Route::get('/getPollsAll', 'PollsController@getPollsAll');
-
+Route::get('/getMyPolls', 'PollsController@getMyPolls');
+Route::get('/getMyAnswers', 'PollsController@getMyAnswers');
 Route::get('/show_leaders', 'AdminController@getLeaders');
 Route::get('/subscribe/{id}', 'AdminController@subscribe');
 

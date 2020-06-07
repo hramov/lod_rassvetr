@@ -111,6 +111,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -343,7 +345,7 @@ var render = function() {
               _c(
                 "v-chip",
                 { attrs: { color: "#3399FE", "text-color": "white" } },
-                [_vm._v("\n                + 20 баллов\n            ")]
+                [_vm._v("\n                   + 20 баллов\n               ")]
               ),
               _vm._v(" "),
               _c("span", { staticClass: "ml-2 text--secondary" }, [
@@ -364,7 +366,7 @@ var render = function() {
                     "justify-center d-flex block-id-pall subtitle-1 align-center"
                 },
                 [
-                  _vm._v("\n                ID "),
+                  _vm._v("\n                   ID "),
                   _c("span", { staticClass: "id-pall" }, [
                     _vm._v(" " + _vm._s(_vm.id))
                   ])
@@ -404,9 +406,9 @@ var render = function() {
                       _c("v-col", { attrs: { lg: "12" } }, [
                         _c("p", { staticClass: "title" }, [
                           _vm._v(
-                            "\n                            " +
+                            "\n                               " +
                               _vm._s(_vm.description) +
-                              "\n                        "
+                              "\n                           "
                           )
                         ])
                       ])
@@ -446,9 +448,9 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-expansion-panel-content", [
                                     _vm._v(
-                                      "\n                                    " +
+                                      "\n                                       " +
                                         _vm._s(_vm.content) +
-                                        "\n                                "
+                                        "\n                                   "
                                     )
                                   ])
                                 ],
@@ -512,47 +514,51 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-row",
-                    [
-                      _c("v-col", { attrs: { lg: "12" } }, [
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "form-control",
-                            staticStyle: { "text-decoration": "none" },
-                            attrs: { href: "" },
-                            on: {
-                              click: function($event) {
-                                return _vm.yes()
-                              }
-                            }
-                          },
-                          [_vm._v('Вариант "За"')]
-                        ),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "form-control",
-                            staticStyle: { "text-decoration": "none" },
-                            attrs: { href: "" },
-                            on: {
-                              click: function($event) {
-                                return _vm.no()
-                              }
-                            }
-                          },
-                          [_vm._v('Вариант "Против"')]
+                  _c("v-row", [
+                    _vm.status
+                      ? _c(
+                          "div",
+                          [
+                            _c("v-col", { attrs: { lg: "12" } }, [
+                              _c("hr"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "form-control",
+                                  staticStyle: { "text-decoration": "none" },
+                                  attrs: { href: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.yes()
+                                    }
+                                  }
+                                },
+                                [_vm._v('Вариант "За"')]
+                              ),
+                              _vm._v(" "),
+                              _c("hr"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "form-control",
+                                  staticStyle: { "text-decoration": "none" },
+                                  attrs: { href: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.no()
+                                    }
+                                  }
+                                },
+                                [_vm._v('Вариант "Против"')]
+                              )
+                            ])
+                          ],
+                          1
                         )
-                      ])
-                    ],
-                    1
-                  )
+                      : _c("div", [_vm._v("Вы уже голосовали!")])
+                  ])
                 ],
                 1
               )
@@ -565,25 +571,7 @@ var render = function() {
       _vm._v(" "),
       _c("v-row"),
       _vm._v(" "),
-      _c(
-        "v-row",
-        [
-          _c("v-col", [
-            _c(
-              "a",
-              { staticClass: "btn btn-primary", on: { click: _vm.editPoll } },
-              [_vm._v("Редактировать")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              { staticClass: "btn btn-danger", on: { click: _vm.deletePoll } },
-              [_vm._v("Удалить")]
-            )
-          ])
-        ],
-        1
-      )
+      _c("v-row", [_c("v-col")], 1)
     ],
     1
   )

@@ -481,7 +481,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-card-actions", [
                     _c("a", { attrs: { href: "/#/singlePoll/" + poll.id } }, [
-                      _vm._v("Голосовать")
+                      _vm._v("Открыть")
                     ])
                   ])
                 ],

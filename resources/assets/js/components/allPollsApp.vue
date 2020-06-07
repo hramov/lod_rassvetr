@@ -33,12 +33,12 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn
+                        <a :href="'/#/singlePoll/' + poll.id"
                                 color="orange"
                                 text
                         >
-                            Подробнее
-                        </v-btn>
+                            Открыть
+                        </a>
 
                     </v-card-actions>
                 </v-card>

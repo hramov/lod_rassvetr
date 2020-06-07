@@ -78,13 +78,15 @@
                         </v-col>
                     </v-row>
                     <v-row>
+                        <div v-if="status">
                         <v-col lg="12">
                             <hr>
                             <a @click="yes()" href="" class="form-control" style="text-decoration: none;">Вариант "За"</a>
                             <hr>
                             <a @click="no()" href="" class="form-control" style="text-decoration: none;">Вариант "Против"</a>
-                            
                         </v-col>
+                    </div>
+                    <div v-else>Вы уже голосовали!</div>
                     </v-row>
                 </v-col>
             </v-row>
@@ -93,8 +95,8 @@
         </v-row>
         <v-row>
             <v-col>
-                <a class="btn btn-primary" @click="editPoll">Редактировать</a>
-                <a class="btn btn-danger" @click="deletePoll">Удалить</a>
+ <!--                <a class="btn btn-primary" @click="editPoll">Редактировать</a>
+                <a class="btn btn-danger" @click="deletePoll">Удалить</a> -->
             </v-col>
         </v-row>
     </v-container>
